@@ -102,8 +102,8 @@ tic
     end
     
     varphi_matrix = zeros(N_y-1, N_x-1);
-    varphi_matrix(1, :) = -lam_0m*phi_matrix(1, 2:N_x); % 矩阵索引比网格索引多 1
-    varphi_matrix(end, :) = -lam_0p*phi_matrix(N_y+1, 2:N_x); % 矩阵索引比网格索引多 1
+    varphi_matrix(1, :) = -lam_0m*u_x_ybeg(X(2:N_x)); % 矩阵索引比网格索引多 1
+    varphi_matrix(end, :) = -lam_0p*u_x_yend(X(2:N_x)); % 矩阵索引比网格索引多 1
     
     Result = zeros(N_y+1,N_x+1);
     Result(1,:) = u_x_ybeg(X);
@@ -138,13 +138,13 @@ tic
     end
     % 第二项 \vec{\varphi}
     for i = 1: N_x-1    
-        Phi( (i-1)*(N_y-1)+1 : i*(N_y-1), 1 ) = varphi_matrix(:, i) + Phi( (i-1)*(N_y-1)+1 : i*(N_y-1), 1 );   % 网格索引 0 ~ N，矩阵索引 1 ~ N+1
+        Phi( (i-1)*(N_y-1)+1 : i*(N_y-1), 1 ) = Phi( (i-1)*(N_y-1)+1 : i*(N_y-1), 1 )+ varphi_matrix(:, i);   % 网格索引 0 ~ N，矩阵索引 1 ~ N+1
     end
     % 第三项 \vec{u}_09
-    Phi(1:(N_y-1), 1) = Phi(1:(N_y-1), 1) -lam_0m*u_xbeg_y(Y(2:N_y));
-    % 第四项 \vec{u}_{N_x}
-    Phi( (N_x-2)*(N_y-1)+1:(N_x-1)*(N_y-1), 1) = Phi( (N_x-2)*(N_y-1)+1:(N_x-1)*(N_y-1), 1) -lam_0m*u_xend_y(Y(2:N_y));
+    Phi(1:(N_y-1), 1) = Phi(1:(N_y-1), 1) -lam_0m*u_xbeg_y(Y(2:N_y))';  % 这里需要有转置，否则可能行向量 + 列向量构成新矩阵
 
+    % 第四项 \vec{u}_{N_x}
+    Phi( (N_x-2)*(N_y-1)+1:(N_x-1)*(N_y-1), 1) = Phi( (N_x-2)*(N_y-1)+1:(N_x-1)*(N_y-1), 1) - lam_0m*u_xend_y(Y(2:N_y))';   % 这里需要有转置，否则可能行向量 + 列向量构成新矩阵
 
 % 求解矩阵方程
     U = K\Phi;
