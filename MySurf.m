@@ -4,6 +4,7 @@ function MySurf(X, Y, Z, RetainLineEdge)
     % X：横坐标，应为 m*n 矩阵
     % Y：纵坐标，应为 m*n 矩阵
     % Z：竖坐标，应为 m*n 矩阵
+    % UseRedBlue：是否使用 RedBlue 颜色数组
     % RetainLineEdge：是否保留 surf 时的 EdgeColor，true 或 false
 % 输出：图像
 % 注：RetainLineEdge 为 true 时，导出的 pdf 图像大小可能剧增，此时建议使用 MyMesh 而不是 MySurf
@@ -25,7 +26,12 @@ function MySurf(X, Y, Z, RetainLineEdge)
     end
     p1.View = [-35 30];
     p1.PlotBoxAspectRatio = [1.1 1 0.65];
-    p1.Colormap = bone;
+    if UseRedBlue
+        p1.Colormap = redblue;
+    end
+    if ~UseRedBlue
+        p1.Colormap = bone;
+    end
     colorbar(p1,"eastoutside"); 
     
 
@@ -40,7 +46,12 @@ function MySurf(X, Y, Z, RetainLineEdge)
     contourf(X,Y,Z,12);
 
     p2.PlotBoxAspectRatio = [1.1 1 0.65];
-    p2.Colormap = bone;
+    if UseRedBlue
+        p2.Colormap = redblue;
+    end
+    if ~UseRedBlue
+        p2.Colormap = bone;
+    end
 
     title(p2,'(b)','Interpreter','latex'); 
     xlabel(p2,'$x$ axis','Interpreter','latex')
