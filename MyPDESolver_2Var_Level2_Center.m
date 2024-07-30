@@ -1,5 +1,5 @@
 function PdeProblem = MyPDESolver_2Var_Level2_Center(PdeProblem)
-% PDE 求解器（二元，二阶，中心差分）u_0_y
+% PDE 求解器（二元，二阶，中心差分）
 
 % 若待求函数为 u = u(t,x)
 % 方程：a*u + b_t*u_t + b_x*u_x + c_tt*u_tt + c_xx*u_xx = phi(t,x)
@@ -140,11 +140,11 @@ tic
     for i = 1: N_x-1    
         Phi( (i-1)*(N_y-1)+1 : i*(N_y-1), 1 ) = Phi( (i-1)*(N_y-1)+1 : i*(N_y-1), 1 )+ varphi_matrix(:, i);   % 网格索引 0 ~ N，矩阵索引 1 ~ N+1
     end
-    % 第三项 \vec{u}_09
-    Phi(1:(N_y-1), 1) = Phi(1:(N_y-1), 1) -lam_0m*u_xbeg_y(Y(2:N_y))';  % 这里需要有转置，否则可能行向量 + 列向量构成新矩阵
+    % 第三项 \vec{u}_0
+    Phi(1:(N_y-1), 1) = Phi(1:(N_y-1), 1) -lam_m0*u_xbeg_y(Y(2:N_y))';  % 这里需要有转置，否则可能行向量 + 列向量构成新矩阵
 
     % 第四项 \vec{u}_{N_x}
-    Phi( (N_x-2)*(N_y-1)+1:(N_x-1)*(N_y-1), 1) = Phi( (N_x-2)*(N_y-1)+1:(N_x-1)*(N_y-1), 1) - lam_0m*u_xend_y(Y(2:N_y))';   % 这里需要有转置，否则可能行向量 + 列向量构成新矩阵
+    Phi( (N_x-2)*(N_y-1)+1:(N_x-1)*(N_y-1), 1) = Phi( (N_x-2)*(N_y-1)+1:(N_x-1)*(N_y-1), 1) - lam_p0*u_xend_y(Y(2:N_y))';   % 这里需要有转置，否则可能行向量 + 列向量构成新矩阵
 
 % 求解矩阵方程
     U = K\Phi;
@@ -163,8 +163,8 @@ time = toc;
     disp(['用时：', num2str(time)])
     disp(['x 轴步长：', num2str(h_x)])
     disp(['y 轴步长：', num2str(h_y)])
-    disp("PDE结构体：")
-    disp(PdeProblem)
+    % disp("PDE结构体：")
+    % disp(PdeProblem)
     disp("------- PDE 求解器（二元，二阶，中心差分）-------")
     disp("----------------------------------------------")
 end
