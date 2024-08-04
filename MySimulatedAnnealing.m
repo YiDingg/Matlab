@@ -1,4 +1,4 @@
-function stc = MySimulatedAnnealing(stc, objective)
+function [stc_SA, stc_Figure] = MySimulatedAnnealing(stc_SA, objective)
 % 输入退火问题结构体，输出迭代结果（maximize）。
 % 
 % 输入：
@@ -7,18 +7,18 @@ function stc = MySimulatedAnnealing(stc, objective)
 % 输出：迭代结果
 
     % 步骤一：初始化
-        TK = stc.Annealing.T0;
-        t0 = stc.Annealing.t0;
-        mkv = stc.Annealing.mkvlength;
-        a = stc.Annealing.a;
+        TK = stc_SA.Annealing.T0;
+        t0 = stc_SA.Annealing.t0;
+        mkv = stc_SA.Annealing.mkvlength;
+        a = stc_SA.Annealing.a;
         %lam = stc.Annealing.lam;
         % 迭代记录仪初始化
         change_1 = 0;    % 随机到更优解的次数
         change_2 = 0;    % 接收较差解的次数（两者约 10:1 时有较好寻优效果）
         mytry = 0;       % 当前迭代次数
         N = mkv*ceil(log(t0/TK)/log(a));   % 迭代总次数
-        X = stc.Var.range(:,3);
-        X_best = stc.Var.range(:,3);
+        X = stc_SA.Var.range(:,3);
+        X_best = stc_SA.Var.range(:,3);
         f_best = objective(X); % 计算目标函数
         process = zeros(1, floor(N));
         process_change = zeros(1, floor(N));
@@ -31,10 +31,10 @@ function stc = MySimulatedAnnealing(stc, objective)
             for i = 1:mkv  % 每个温度T下，我们都寻找 mkv 次新解 X，每一个新解都有可能被接受
                 r = rand;
                 if r>=0.5 % 在当前较优解附近扰动
-                        X = X_best+(rand-0.5)^3*(stc.Var.range(:,2) - stc.Var.range(:,1))*( 1-(mytry-1)/N )^2;
-                        X = max(stc.Var.range(:,1), min(X, stc.Var.range(:,2)));   % 确保扰动后的 X 仍在范围内
+                        X = X_best+(rand-0.5)^3*(stc_SA.Var.range(:,2) - stc_SA.Var.range(:,1))*( 1-(mytry-1)/N )^2;
+                        X = max(stc_SA.Var.range(:,1), min(X, stc_SA.Var.range(:,2)));   % 确保扰动后的 X 仍在范围内
                 else % 生成全局随机解
-                    X = rand*(stc.Var.range(:,2) - stc.Var.range(:,1))';  % 转置后才是行向量   
+                    X = rand*(stc_SA.Var.range(:,2) - stc_SA.Var.range(:,1))';  % 转置后才是行向量   
                 end
                 f = objective(X); % 计算目标函数
                 mytry = mytry+1;
@@ -59,10 +59,10 @@ function stc = MySimulatedAnnealing(stc, objective)
         end
 
     % 步骤三：退火结束，输出最终结果
-        stc.process = process;
-        stc.process_change = process_change;
-        stc.X_best = X_best;
-        MyPlot(1:length(process),[process; process_change], ["times"; "objective"])
+        stc_SA.process = process;
+        stc_SA.process_change = process_change;
+        stc_SA.X_best = X_best;
+        stc_Figure = MyPlot(1:length(process),[process; process_change], ["times"; "objective"]);
         legend("当前目标函数值","最优目标函数值")
         disp('---------------------------------')
         disp('>> --------  模拟退火  -------- <<')

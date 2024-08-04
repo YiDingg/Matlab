@@ -1,4 +1,4 @@
-function MySurf(X, Y, Z, RetainLineEdge)
+function stc_MySurf = MySurf(X, Y, Z, RetainLineEdge)
 % 给定数据，作出 3-D mesh 图像
 % 输入：
     % X：横坐标，应为 m*n 矩阵
@@ -9,8 +9,8 @@ function MySurf(X, Y, Z, RetainLineEdge)
 % 输出：图像
 % 注：RetainLineEdge 为 true 时，导出的 pdf 图像大小可能剧增，此时建议使用 MyMesh 而不是 MySurf
 
-    figure('Name','MyMesh','Color',[1 1 1]);
-    tiledlayout(1,2)
+    stc_MySurf.fig = figure('Name','MyMesh','Color',[1 1 1]);
+    tiledlayout(1,2,"Padding","tight")
 
     % 作图 1 并设置样式
     p1 = nexttile;

@@ -1,4 +1,4 @@
-function MyPlot(XData, YData, XYLabel)
+function stc_MyPlot = MyPlot(XData, YData, XYLabel)
 % 给定数据，作出 2-D 函数图像（注意输入的是行向量！）
 % 输入：
     % XData：横坐标，应为 1*n 行向量（共用）
@@ -19,9 +19,9 @@ function MyPlot(XData, YData, XYLabel)
     %si = size(XData);
 
     % 创建图窗
-    Myfigure = figure('NumberTitle','off','Name','MyPlot','Color',[1 1 1]);
-    Myaxes = axes('Parent',Myfigure);   
-    hold(Myaxes,'on');
+    stc_MyPlot.fig = figure('Name','MyPlot','Color',[1 1 1]);
+    stc_MyPlot.axes = axes('Parent',stc_MyPlot.fig);   
+    hold(stc_MyPlot.axes,'on');
 
     % 作图
     for i = 1:1:m
@@ -34,18 +34,18 @@ function MyPlot(XData, YData, XYLabel)
     end
 
     % 设置样式
-    % title(Myaxes,'Title here, $y = f(x)$','Interpreter','latex')
-    xlabel(Myaxes, XYLabel(1,:),'Interpreter','latex')
-    ylabel(Myaxes, XYLabel(2,:),'Interpreter','latex')
-    % Myaxes.GridLineStyle = '--';
-    % Myle = legend(Myaxes,'$y_1 = sin(x)$','$y_2 = cos(x)$','$y_3 = cos(\frac{x^2}{5})$','Interpreter', 'latex', 'Location', 'best');
-    Myle = legend(Myaxes, 'Location', 'best');
-    Myle.FontSize = 11;
-    Myle.FontName = "TimesNewRoman";
-    grid(Myaxes,"on") % show the grid
-    axis(Myaxes,"padded") % show the axis
-    % set(Myaxes, 'YLimitMethod','padded', 'XLimitMethod','padded')
+    % title(stc_myplot.axes,'Title here, $y = f(x)$','Interpreter','latex')
+    xlabel(stc_MyPlot.axes, XYLabel(1,:),'Interpreter','latex')
+    ylabel(stc_MyPlot.axes, XYLabel(2,:),'Interpreter','latex')
+    % stc_myplot.axes.GridLineStyle = '--';
+    % Myle = legend(stc_myplot.axes,'$y_1 = sin(x)$','$y_2 = cos(x)$','$y_3 = cos(\frac{x^2}{5})$','Interpreter', 'latex', 'Location', 'best');
+    stc_MyPlot.leg = legend(stc_MyPlot.axes, 'Location', 'best');
+    stc_MyPlot.leg.FontSize = 11;
+    stc_MyPlot.leg.FontName = "TimesNewRoman";
+    grid(stc_MyPlot.axes,"on") % show the grid
+    axis(stc_MyPlot.axes,"padded") % show the axis
+    % set(stc_myplot.axes, 'YLimitMethod','padded', 'XLimitMethod','padded')
             
     % 收尾
-    hold(Myaxes,'on')
+    hold(stc_MyPlot.axes,'on')
 end
