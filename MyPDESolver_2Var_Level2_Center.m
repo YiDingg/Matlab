@@ -1,5 +1,6 @@
 function PdeProblem = MyPDESolver_2Var_Level2_Center(PdeProblem)
-% PDE 求解器（二元，二阶，中心差分）
+% PDE 求解器（二元，二阶，中心差分，Richardson 格式）
+% 注：Richardson 格式稳定性较差，建议使用 DuFort-Frankel (DF) 格式
 
 % 若待求函数为 u = u(t,x)
 % 方程：a*u + b_t*u_t + b_x*u_x + c_tt*u_tt + c_xx*u_xx = phi(t,x)
@@ -77,21 +78,21 @@ tic
     h_x = x_end/N_x;
     h_y = y_end/N_y;
      
-    lam_m0 = -b_x/(2*h_x) + c_xx/h_x^2;         % lamda_{i-1, j}
-    lam_0m = -b_y/(2*h_y) + c_yy/h_y^2;         % lamda_{i, j-1}
-    lam_00 = a - 2*c_xx/h_x^2 - 2*c_yy/h_y^2;   % lamda_{i, j}
-    lam_p0 = b_x/(2*h_x) + c_xx/h_x^2;          % lamda_{i, j+1}
-    lam_0p = b_y/(2*h_y) + c_yy/h_y^2;          % lamda_{i+1, j}
+    lam_m0 = -b_x/(2*h_x) + c_xx/h_x^2;         % lamda_{-1,0}
+    lam_0m = -b_y/(2*h_y) + c_yy/h_y^2;         % lamda_{0,-1}
+    lam_00 = a - 2*c_xx/h_x^2 - 2*c_yy/h_y^2;   % lamda_{0,0}
+    lam_p0 = b_x/(2*h_x) + c_xx/h_x^2;          % lamda_{1,0}
+    lam_0p = b_y/(2*h_y) + c_yy/h_y^2;          % lamda_{0,1}
 
     PdeProblem.X = linspace(x_beg, x_end, N_x+1);    % X 轴
     PdeProblem.Y = linspace(y_beg, y_end, N_y+1);
     X = PdeProblem.X;
     Y = PdeProblem.Y;    % Y 轴
-% 矩阵初始化
 
+% 矩阵初始化
     [GridX, GridY] = meshgrid(X,Y); 
-    I_m = lam_m0*eye(N_y-1);
-    I_p = lam_p0*eye(N_y-1);
+    D_m = lam_m0*eye(N_y-1);
+    D_p = lam_p0*eye(N_y-1);
     U = zeros((N_x-1)*(N_y-1), 1);     % 待求函数
     K = zeros((N_x-1)*(N_y-1), (N_x-1)*(N_y-1));      % 系数矩阵
 
@@ -115,6 +116,7 @@ tic
     Result(1,end) = 0.5*( u_x_ybeg(X(end)) + u_xend_y(Y(1)) );
     Result(end, 1) = 0.5*( u_x_yend(X(1)) + u_xbeg_y(Y(end)) );
     Result(end, end) = 0.5*( u_x_yend(X(end)) + u_xend_y(Y(end)) );
+
 % 赋入矩阵数据
     G = lam_00*eye((N_y-1)) ...
         + [
@@ -129,21 +131,17 @@ tic
         K( (i-1)*(N_y-1)+1 : i*(N_y-1), (i-1)*(N_y-1)+1 : i*(N_y-1) ) = G;
     end
     for i = 1: N_x-2
-        K( (i)*(N_y-1)+1 : (i+1)*(N_y-1), (i-1)*(N_y-1)+1 : i*(N_y-1) ) = I_m;
-        K( (i-1)*(N_y-1)+1 : (i)*(N_y-1), (i)*(N_y-1)+1 : (i+1)*(N_y-1) ) = I_p;
+        K( (i)*(N_y-1)+1 : (i+1)*(N_y-1), (i-1)*(N_y-1)+1 : i*(N_y-1) ) = D_m;
+        K( (i-1)*(N_y-1)+1 : (i)*(N_y-1), (i)*(N_y-1)+1 : (i+1)*(N_y-1) ) = D_p;
     end
-    % 第一项 \vec{\phi}
+    % 第一、二项 \vec{\phi} + \vec{\varphi}
     for i = 1: N_x-1    
-        Phi( (i-1)*(N_y-1)+1 : i*(N_y-1), 1 ) = phi_matrix(2:N_y, i+1);   % 网格索引 0 ~ N，矩阵索引 1 ~ N+1
+        Phi( (i-1)*(N_y-1)+1 : i*(N_y-1), 1 ) = phi_matrix(2:N_y, i+1) + varphi_matrix(:, i);;   % 网格索引 0 ~ N，矩阵索引 1 ~ N+1
     end
-    % 第二项 \vec{\varphi}
-    for i = 1: N_x-1    
-        Phi( (i-1)*(N_y-1)+1 : i*(N_y-1), 1 ) = Phi( (i-1)*(N_y-1)+1 : i*(N_y-1), 1 )+ varphi_matrix(:, i);   % 网格索引 0 ~ N，矩阵索引 1 ~ N+1
-    end
-    % 第三项 \vec{u}_0
+    % 第三项 -\lambda_{-1,0}\vec{u}_0
     Phi(1:(N_y-1), 1) = Phi(1:(N_y-1), 1) -lam_m0*u_xbeg_y(Y(2:N_y))';  % 这里需要有转置，否则可能行向量 + 列向量构成新矩阵
 
-    % 第四项 \vec{u}_{N_x}
+    % 第四项 -\lambda_{1,0}\vec{u}_{N_x}
     Phi( (N_x-2)*(N_y-1)+1:(N_x-1)*(N_y-1), 1) = Phi( (N_x-2)*(N_y-1)+1:(N_x-1)*(N_y-1), 1) - lam_p0*u_xend_y(Y(2:N_y))';   % 这里需要有转置，否则可能行向量 + 列向量构成新矩阵
 
 % 求解矩阵方程
@@ -161,8 +159,8 @@ time = toc;
     disp("----------------------------------------------")
     disp("------- PDE 求解器（二元，二阶，中心差分）-------")
     disp(['用时：', num2str(time)])
-    disp(['x 轴步长：', num2str(h_x)])
-    disp(['y 轴步长：', num2str(h_y)])
+    disp(['x 轴单元数：', num2str(N_x), ', x 轴步长：', num2str(h_x)])
+    disp(['y 轴单元数：', num2str(N_y), ', y 轴步长：', num2str(h_y)])
     % disp("PDE结构体：")
     % disp(PdeProblem)
     disp("------- PDE 求解器（二元，二阶，中心差分）-------")
