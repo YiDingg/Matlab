@@ -47,5 +47,5 @@ function stc_MyPlot = MyPlot(XData, YData, XYLabel)
     % set(stc_myplot.axes, 'YLimitMethod','padded', 'XLimitMethod','padded')
             
     % 收尾
-    hold(stc_MyPlot.axes,'on')
+    hold(stc_MyPlot.axes,'off')
 end

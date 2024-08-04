@@ -11,6 +11,8 @@ function [stc_SA, stc_Figure] = MySimulatedAnnealing(stc_SA, objective)
         t0 = stc_SA.Annealing.t0;
         mkv = stc_SA.Annealing.mkvlength;
         a = stc_SA.Annealing.a;
+        num_Var = size(stc_SA.Var.range(:,3));
+        num_Var = num_Var(1);
         %lam = stc.Annealing.lam;
         % 迭代记录仪初始化
         change_1 = 0;    % 随机到更优解的次数
@@ -26,13 +28,16 @@ function [stc_SA, stc_Figure] = MySimulatedAnnealing(stc_SA, objective)
 
     % 步骤二：退火
         disp("初始化完成，开始退火")
+        disp(['initial obj: ',num2str(f_best)])
         start = tic; % 开始计时
         while TK >= t0   
             for i = 1:mkv  % 每个温度T下，我们都寻找 mkv 次新解 X，每一个新解都有可能被接受
                 r = rand;
                 if r>=0.5 % 在当前较优解附近扰动
-                        X = X_best+(rand-0.5)^3*(stc_SA.Var.range(:,2) - stc_SA.Var.range(:,1))*( 1-(mytry-1)/N )^2;
-                        X = max(stc_SA.Var.range(:,1), min(X, stc_SA.Var.range(:,2)));   % 确保扰动后的 X 仍在范围内
+                    for j = 1:num_Var
+                            X(j) = X_best(j)+(rand-0.5)*(stc_SA.Var.range(j,2) - stc_SA.Var.range(j,1))*( 1-(mytry-1)/N )^2;
+                            X(j) = max(stc_SA.Var.range(j,1), min(X(j), stc_SA.Var.range(j,2)));   % 确保扰动后的 X 仍在范围内
+                    end
                 else % 生成全局随机解
                     X = rand*(stc_SA.Var.range(:,2) - stc_SA.Var.range(:,1))';  % 转置后才是行向量   
                 end

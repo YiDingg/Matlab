@@ -6,11 +6,11 @@ function [stc_GridSearch, stc_Figure] = MyGridSearch(stc_GridSearch, objective, 
             % stc.Var：m*3 矩阵（m<=3），每一行为一个参数范围和单元数
                 % 例如：
                 % stc.Var = [
-                % 0 1 100
-                % 10 100 300
+                %   0 1 100
+                %   10 100 300
                 % ]
     % objective：目标函数
-    % ArrayInput：目标函数是否支持数组输入
+    % ShowProcess：过程监控层级
 % 输出：搜索结果及进一步建议
     
     % 步骤一：初始化
@@ -23,6 +23,7 @@ function [stc_GridSearch, stc_Figure] = MyGridSearch(stc_GridSearch, objective, 
     if num_Var ~= 1
         Objective = zeros(stc_GridSearch.Var(:,3)');    % 解空间
     end
+    disp("网格搜索初始化完毕，开始遍历解空间")
 
     % 步骤二：预估时间
 %     test = tic;
@@ -51,6 +52,9 @@ function [stc_GridSearch, stc_Figure] = MyGridSearch(stc_GridSearch, objective, 
             stc_GridSearch.X1 = linspace(stc_GridSearch.Var(1,1),stc_GridSearch.Var(1,2),stc_GridSearch.Var(1,3));
             for i = 1:stc_GridSearch.Var(1,3)
                 Objective(i) = objective(stc_GridSearch.X1(i));
+                if ShowProcess == 1
+                    disp(['进度：',num2str(100*i/stc_GridSearch.Var(1,3)),'%'])
+                end
             end
         case 2
             stc_GridSearch.X1 = linspace(stc_GridSearch.Var(1,1),stc_GridSearch.Var(1,2),stc_GridSearch.Var(1,3));
@@ -58,8 +62,11 @@ function [stc_GridSearch, stc_Figure] = MyGridSearch(stc_GridSearch, objective, 
             for i = 1:stc_GridSearch.Var(1,3)
                 for j = 1:stc_GridSearch.Var(2,3)
                     Objective(i,j) = objective(stc_GridSearch.X1(i),stc_GridSearch.X2(j));
+                    if ShowProcess == 2
+                        disp(['进度：',num2str(100*(i/stc_GridSearch.Var(1,3) + j/(stc_GridSearch.Var(1,3)*stc_GridSearch.Var(2,3)))),'%'])
+                    end
                 end
-                if ShowProcess
+                if ShowProcess == 1
                     disp(['进度：',num2str(100*i/stc_GridSearch.Var(1,3)),'%'])
                 end
             end
@@ -71,10 +78,16 @@ function [stc_GridSearch, stc_Figure] = MyGridSearch(stc_GridSearch, objective, 
                 for j = 1:stc_GridSearch.Var(2,3)
                     for k = 1:stc_GridSearch.Var(3,3)
                         Objective(i,j,k) = objective(stc_GridSearch.X1(i),stc_GridSearch.X2(j),stc_GridSearch.X3(k));
+                        if ShowProcess == 3
+                            disp(  ['进度：', num2str(  100*( i/stc_GridSearch.Var(1,3) + j/(stc_GridSearch.Var(1,3)*stc_GridSearch.Var(2,3)) + k/(stc_GridSearch.Var(1,3)*stc_GridSearch.Var(2,3)*stc_GridSearch.Var(3,3))  )  ),'%']  )
+                        end
+                    end
+                    if ShowProcess == 2
+                        disp(['进度：',num2str(100*(i/stc_GridSearch.Var(1,3) + j/(stc_GridSearch.Var(1,3)*stc_GridSearch.Var(2,3)))),'%'])
                     end
                 end
-                if ShowProcess
-                    disp(['进度：',num2str(100*i/stc_GridSearch.Var(1,3)),'%'])
+                if ShowProcess == 1
+                    disp(['进度：',num2str(  100*( i/stc_GridSearch.Var(1,3) )  ),'%'])
                 end
             end
         case 4
@@ -88,10 +101,16 @@ function [stc_GridSearch, stc_Figure] = MyGridSearch(stc_GridSearch, objective, 
                         for l = 1:stc_GridSearch.Var(4,3)
                             Objective(i,j,k,l) = objective(stc_GridSearch.X1(i),stc_GridSearch.X2(j),stc_GridSearch.X3(k),stc_GridSearch.X4(l));
                         end
+                        if ShowProcess == 3
+                            disp(  ['进度：', num2str(  100*( i/stc_GridSearch.Var(1,3) + j/(stc_GridSearch.Var(1,3)*stc_GridSearch.Var(2,3)) + k/(stc_GridSearch.Var(1,3)*stc_GridSearch.Var(2,3)*stc_GridSearch.Var(3,3))  )  ),'%']  )
+                        end
+                    end
+                    if ShowProcess == 2
+                        disp(['进度：',num2str(100*(i/stc_GridSearch.Var(1,3) + j/(stc_GridSearch.Var(1,3)*stc_GridSearch.Var(2,3)))),'%'])
                     end
                 end
-                if ShowProcess
-                    disp(['进度：',num2str(100*i/stc_GridSearch.Var(1,3)),'%'])
+                if ShowProcess == 1
+                    disp(['进度：',num2str(  100*( i/stc_GridSearch.Var(1,3) )  ),'%'])
                 end
             end
     end
