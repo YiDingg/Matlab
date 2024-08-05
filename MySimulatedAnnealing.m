@@ -74,10 +74,11 @@ function [stc_SA, stc_Figure] = MySimulatedAnnealing(stc_SA, objective)
             stc_SA.process = process;
             stc_SA.process_best = process_best;
             stc_SA.X_best = X_best;
+            stc_SA.Object_best = f_best;
 
-           
+            time = toc(start);
             stc_Figure = MyYYPlot(1:length(process), process, 1:length(process), process_best);
-            stc_Figure.axes.Title.String = 'Simulated Annealing';
+            stc_Figure.axes.Title.String = ['Simulated Annealing (in ', num2str(time),' s)'];
             stc_Figure.leg.String = ["Current objective value";"Best objective value"];
             stc_Figure.p_left.LineWidth = 1.6;
             stc_Figure.p_right.LineWidth = 1.6;
@@ -96,4 +97,7 @@ function [stc_SA, stc_Figure] = MySimulatedAnnealing(stc_SA, objective)
             disp(['最优目标值：', num2str(f_best)])
             disp('>> --------  模拟退火  -------- <<')
             disp('---------------------------------')
+
+        % 导出数据
+            writematrix([stc_SA.X_best, stc_SA.Object_best, time], 'SAResualt.xlsx', "WriteMode","append");
 end
