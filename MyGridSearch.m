@@ -3,12 +3,6 @@ function [stc_GridSearch, stc_Figure] = MyGridSearch(stc_GridSearch, objective, 
 % 输入参数：
     % stc：网格搜索结构体
         % stc.Var：迭代参数信息
-            % stc.Var：m*3 矩阵（m<=3），每一行为一个参数范围和单元数
-                % 例如：
-                % stc.Var = [
-                %   0 1 100
-                %   10 100 300
-                % ]
     % objective：目标函数
     % ShowProcess：过程监控层级
 % 输出：搜索结果及进一步建议
@@ -46,7 +40,8 @@ function [stc_GridSearch, stc_Figure] = MyGridSearch(stc_GridSearch, objective, 
 %     disp(['预估时间：',num2str(time_pre),' s = ',num2str(time_pre/60),' min'])
 
     % 步骤三：求解目标函数
-    time = tic;
+    start = tic;
+
     switch num_Var
         case 1
             stc_GridSearch.X1 = linspace(stc_GridSearch.Var(1,1),stc_GridSearch.Var(1,2),stc_GridSearch.Var(1,3));
@@ -185,7 +180,8 @@ function [stc_GridSearch, stc_Figure] = MyGridSearch(stc_GridSearch, objective, 
     disp('---------------------------------')
     disp('>> --------  网格搜索  -------- <<')
     disp(['总计算次数：',num2str(prod(stc_GridSearch.Var(:,3)))])
-    toc(time)
+    time = toc(start);
+    toc(start)
     disp(['最优参数：', num2str(stc_GridSearch.X_best)])
     disp(['最优目标值：',num2str(obj_best)])
     disp('>> --------  网格搜索  -------- <<')
@@ -194,7 +190,7 @@ function [stc_GridSearch, stc_Figure] = MyGridSearch(stc_GridSearch, objective, 
     switch num_Var
         case 1
             stc_Figure = MyPlot(stc_GridSearch.X1,Objective);
-            stc_Figure.axes.Title.String = 'Grid Search';
+            stc_Figure.axes.Title.String = ['Grid Search (in ', num2str(time),' s)'];
             stc_Figure.leg.String = 'par 1';
             stc_Figure.label.x.String = 'parameter';
             stc_Figure.label.y.String = 'objective';
@@ -207,6 +203,9 @@ function [stc_GridSearch, stc_Figure] = MyGridSearch(stc_GridSearch, objective, 
             stc_Figure.label_right.x.String = 'par 1';
             stc_Figure.label_right.y.String = 'par 2';
             stc_Figure.label_right.z.String = 'objective';
-            sgtitle(stc_Figure.fig, 'Grid Search','FontSize',13,'FontWeight','bold','FontName', 'Times New Roman')  % sgtitle 的 FontName 无效 
+            sgtitle(stc_Figure.fig, ['Grid Search (in ', num2str(time),' s)'] ,'FontSize',13,'FontWeight','bold','FontName', 'Times New Roman')  % sgtitle 的 FontName 无效 
     end
+
+    % 导出数据
+        writematrix([stc_GridSearch.X_best, obj_best, time], 'MyGridSearchResualts.xlsx', "WriteMode","append");
 end

@@ -2,7 +2,7 @@ function [stc_SA, stc_Figure] = MySimulatedAnnealing(stc_SA, objective)
 % 输入退火问题结构体，输出迭代结果（maximize）。
 % 
 % 输入：
-    % stc：退火问题结构体
+    % stc_SA：退火问题结构体
     % objective：目标函数
 % 输出：迭代结果
 
@@ -99,5 +99,5 @@ function [stc_SA, stc_Figure] = MySimulatedAnnealing(stc_SA, objective)
             disp('---------------------------------')
 
         % 导出数据
-            writematrix([stc_SA.X_best, stc_SA.Object_best, time], 'SAResualt.xlsx', "WriteMode","append");
+            writematrix([stc_SA.X_best, stc_SA.Object_best, time], 'MySimulatedAnnealingResualts.xlsx', "WriteMode","append");
 end
