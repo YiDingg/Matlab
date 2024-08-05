@@ -11,7 +11,8 @@ function [stc_SA, stc_Figure] = MySimulatedAnnealing(stc_SA, objective)
         t0 = stc_SA.Annealing.t0;
         mkv = stc_SA.Annealing.mkvlength;
         a = stc_SA.Annealing.a;
-        num_Var = size(stc_SA.Var.range(:,3),1);    % 返回行数
+        num_Var = size(stc_SA.Var.range(:,3));
+        num_Var = num_Var(1);
         %lam = stc.Annealing.lam;
         % 迭代记录仪初始化
         change_1 = 0;    % 随机到更优解的次数
@@ -63,19 +64,28 @@ function [stc_SA, stc_Figure] = MySimulatedAnnealing(stc_SA, objective)
         end
 
     % 步骤三：退火结束，输出最终结果
-        stc_SA.process = process;
-        stc_SA.process_change = process_change;
-        stc_SA.X_best = X_best;
-        stc_Figure = MyPlot(1:length(process),[process; process_change], ["times"; "objective"]);
-        legend("当前目标函数值","最优目标函数值")
-        disp('---------------------------------')
-        disp('>> --------  模拟退火  -------- <<')
-        toc(start)
-        disp(['一共寻找新解：',num2str(mytry)])
-        disp(['change_1次数：',num2str(change_1)])
-        disp(['change_2次数：',num2str(change_2)])
-        disp(['最优参数：', num2str(X_best)])
-        disp(['最优目标值：',num2str(f_best)])
-        disp('>> --------  模拟退火  -------- <<')
-        disp('---------------------------------')
+        % 图像
+            stc_SA.process = process;
+            stc_SA.process_change = process_change;
+            stc_SA.X_best = X_best;
+
+            stc_Figure = MyPlot(1:length(process),[process; process_change]); 
+            stc_Figure.axes.Title.String = 'Simulated Annealing';
+            stc_Figure.leg.String = ["Current objective value";"Best objective value"];
+            stc_Figure.plot.LineWidth = 2.5;
+            stc_Figure.label.x.String = 'times';
+            stc_Figure.label.y.String = 'objective';
+
+
+        % 文本
+            disp('---------------------------------')
+            disp('>> --------  模拟退火  -------- <<')
+            toc(start)
+            disp(['一共寻找新解：',num2str(mytry)])
+            disp(['change_1次数：',num2str(change_1)])
+            disp(['change_2次数：',num2str(change_2)])
+            disp(['最优参数：', num2str(X_best)])
+            disp(['最优目标值：',num2str(f_best)])
+            disp('>> --------  模拟退火  -------- <<')
+            disp('---------------------------------')
 end

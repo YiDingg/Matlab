@@ -14,7 +14,8 @@ function [stc_GridSearch, stc_Figure] = MyGridSearch(stc_GridSearch, objective, 
 % 输出：搜索结果及进一步建议
     
     % 步骤一：初始化
-    num_Var = size(stc_GridSearch.Var, 1);
+    size_Var = size(stc_GridSearch.Var);
+    num_Var = size_Var(1);
     stc_GridSearch.Var(:,3) = stc_GridSearch.Var(:,3) + 1;    % 点的数量比单元数多 1
     if num_Var == 1
         Objective = zeros(1, stc_GridSearch.Var(:,3));    % 解空间
@@ -192,17 +193,20 @@ function [stc_GridSearch, stc_Figure] = MyGridSearch(stc_GridSearch, objective, 
 
     switch num_Var
         case 1
-            stc_Figure = MyPlot(stc_GridSearch.X1,Objective,['parameter';'objective']);
-            legend(stc_Figure.axes, "par 1");
-            title(stc_Figure.axes, '网格搜索结果','FontSize',13,'FontWeight','bold')
+            stc_Figure = MyPlot(stc_GridSearch.X1,Objective);
+            stc_Figure.axes.Title.String = 'Grid Search';
+            stc_Figure.leg.String = 'par 1';
+            stc_Figure.label.x.String = 'parameter';
+            stc_Figure.label.y.String = 'objective';
+
         case 2
             stc_Figure = MyMesh(stc_GridSearch.X1, stc_GridSearch.X2, Objective', true);
-            xlabel(stc_Figure.p1, "par 1");
-            ylabel(stc_Figure.p1, "par 2");
-            zlabel(stc_Figure.p1, "objective")
-            xlabel(stc_Figure.p2, "par 1");
-            ylabel(stc_Figure.p2, "par 2");
-            zlabel(stc_Figure.p2, "objective")
-            sgtitle(stc_Figure.fig, '网格搜索结果','FontSize',13,'FontWeight','bold')
+            stc_Figure.label_left.x.String = 'par 1';
+            stc_Figure.label_left.y.String = 'par 2';
+            stc_Figure.label_left.z.String = 'objective';
+            stc_Figure.label_right.x.String = 'par 1';
+            stc_Figure.label_right.y.String = 'par 2';
+            stc_Figure.label_right.z.String = 'objective';
+            sgtitle(stc_Figure.fig, 'Grid Search','FontSize',13,'FontWeight','bold','FontName', 'Times New Roman')  % sgtitle 的 FontName 无效 
     end
 end

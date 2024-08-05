@@ -24,11 +24,11 @@ function stc_MyMesh = MyMesh(X, Y, Z, UseRedBlue)
         stc_MyMesh.axes_left.View = [-35 25];
         stc_MyMesh.axes_left.PlotBoxAspectRatio = [1.1 1 0.65];
         stc_MyMesh.axes_left.FontName = "Times New Roman";
-        stc_MyMesh.axes_left.SortMethod = "childorder";   % to avoid warning when exporting to pdf
+        %stc_MyMesh.axes_left.SortMethod = "childorder";   % to avoid warning when exporting to pdf
         stc_MyMesh.colb = colorbar(stc_MyMesh.axes_left,"eastoutside"); 
-        stc_MyMesh.label.x = xlabel(stc_MyMesh.axes_left,'$x$','Interpreter','latex');
-        stc_MyMesh.label.y = ylabel(stc_MyMesh.axes_left,'$y$','Interpreter','latex');
-        stc_MyMesh.label.z = zlabel(stc_MyMesh.axes_left,'$z$','Interpreter','latex');
+        stc_MyMesh.label_left.x = xlabel(stc_MyMesh.axes_left,'$x$','Interpreter','latex');
+        stc_MyMesh.label_left.y = ylabel(stc_MyMesh.axes_left,'$y$','Interpreter','latex');
+        stc_MyMesh.label_left.z = zlabel(stc_MyMesh.axes_left,'$z$','Interpreter','latex');
 
     % 作右图并设置样式
         stc_MyMesh.axes_right = nexttile; 
@@ -37,9 +37,9 @@ function stc_MyMesh = MyMesh(X, Y, Z, UseRedBlue)
         stc_MyMesh.axes_right.FontName = "Times New Roman";
         stc_MyMesh.axes_right.PlotBoxAspectRatio = [1.1 1 0.65];
         stc_MyMesh.axes_right.SortMethod = "childorder";   % to avoid warning when exporting to pdf
-        xlabel(stc_MyMesh.axes_right,'$x$','Interpreter','latex')
-        ylabel(stc_MyMesh.axes_right,'$y$','Interpreter','latex')
-        zlabel(stc_MyMesh.axes_right,'$z$','Interpreter','latex')
+        stc_MyMesh.label_right.x = xlabel(stc_MyMesh.axes_right,'$x$','Interpreter','latex');
+        stc_MyMesh.label_right.y = ylabel(stc_MyMesh.axes_right,'$y$','Interpreter','latex');
+        stc_MyMesh.label_right.z = zlabel(stc_MyMesh.axes_right,'$z$','Interpreter','latex');
     % 收尾
         stc_MyMesh.title = sgtitle(stc_MyMesh.fig, 'Figure: MyMesh');
         stc_MyMesh.title.FontName = 'Times New Roman';  % sgtitle 无法设置字体

@@ -16,6 +16,14 @@ function stc_MyPlot = MyPlot(XData, YData)
         ];
         size_YData = size(YData,1);
         size_XData = size(XData,1);
+        if size(XData,2) >= 100
+            Marker = 'none';
+            LineWidth = 1.5;
+        end
+        if size(XData,2) < 100
+            Marker = '.';
+            LineWidth = 1.3;
+        end
 
     % 创建图窗
         stc_MyPlot.fig = figure('Name','MyPlot','Color',[1 1 1]);
@@ -25,22 +33,22 @@ function stc_MyPlot = MyPlot(XData, YData)
     % 作图
     if size_XData == 1
         for i = 1:1:size_YData
-            line = plot(XData, YData(i,:));
+            stc_MyPlot.plot = plot(XData, YData(i,:));
             % 设置样式
-            line.LineWidth = 1.3;
-            line.Marker = '.';
-            line.MarkerSize = 7;
-            line.Color = MyColor(i,:);
+            stc_MyPlot.plot.LineWidth = LineWidth;
+            stc_MyPlot.plot.Marker = Marker;
+            stc_MyPlot.plot.MarkerSize = 7;
+            stc_MyPlot.plot.Color = MyColor(i,:);
         end
     end
     if size_XData ~= 1
         for i = 1:1:size_YData
-            line = plot(XData(i,:), YData(i,:));
+            stc_MyPlot.plot = plot(XData(i,:), YData(i,:));
             % 设置样式
-            line.LineWidth = 1.3;
-            line.Marker = '.';
-            line.MarkerSize = 7;
-            line.Color = MyColor(i,:);
+            stc_MyPlot.plot.LineWidth = LineWidth;
+            stc_MyPlot.plot.Marker = Marker;
+            stc_MyPlot.plot.MarkerSize = 7;
+            stc_MyPlot.plot.Color = MyColor(i,:);
         end
     end
 
@@ -53,12 +61,13 @@ function stc_MyPlot = MyPlot(XData, YData)
             stc_MyPlot.axes.XLimitMethod = "tight";
             stc_MyPlot.axes.YLimitMethod = "padded";
             stc_MyPlot.axes.Box = 'on';  
-            stc_MyPlot.label.x = xlabel(stc_MyPlot.axes, '$x$', 'Interpreter', 'latex','FontSize',13);
-            stc_MyPlot.label.y = ylabel(stc_MyPlot.axes, '$y$', 'Interpreter', 'latex','FontSize',13);
+            stc_MyPlot.label.x = xlabel(stc_MyPlot.axes, '$x$', 'Interpreter', 'latex', 'FontSize', 13);
+            stc_MyPlot.label.y = ylabel(stc_MyPlot.axes, '$y$', 'Interpreter', 'latex', 'FontSize', 13);
 
         % 标题
             stc_MyPlot.axes.Title.String = 'Figure: MyPlot';
             stc_MyPlot.axes.Title.FontSize = 13;
+            stc_MyPlot.axes.Title.FontWeight = 'bold';
     
         % 图例
             stc_MyPlot.leg = legend(stc_MyPlot.axes, 'Location', 'best');
