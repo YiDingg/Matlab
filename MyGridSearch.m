@@ -14,8 +14,7 @@ function [stc_GridSearch, stc_Figure] = MyGridSearch(stc_GridSearch, objective, 
 % 输出：搜索结果及进一步建议
     
     % 步骤一：初始化
-    size_Var = size(stc_GridSearch.Var);
-    num_Var = size_Var(1);
+    num_Var = size(stc_GridSearch.Var, 1);
     stc_GridSearch.Var(:,3) = stc_GridSearch.Var(:,3) + 1;    % 点的数量比单元数多 1
     if num_Var == 1
         Objective = zeros(1, stc_GridSearch.Var(:,3));    % 解空间

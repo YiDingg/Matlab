@@ -1,4 +1,4 @@
-function PdeProblem = MyPDESolver_2Var_Level2_Center(PdeProblem)
+function PdeProblem = MyPDESolver_2Var_Level2_Center(PdeProblem, DispOutput)
 % PDE 求解器（二元，二阶，中心差分，Richardson 格式）
 % 注：Richardson 格式稳定性较差，建议使用 DuFort-Frankel (DF) 格式
 
@@ -111,11 +111,11 @@ tic
     Result(end,:) = u_x_yend(X);
     Result(:,1) = u_xbeg_y(Y);
     Result(:,end) = u_xend_y(Y);
-    % 平滑边缘突变
-    Result(1,1) = 0.5*( u_x_ybeg(X(1)) +  u_xbeg_y(Y(1)));
-    Result(1,end) = 0.5*( u_x_ybeg(X(end)) + u_xend_y(Y(1)) );
-    Result(end, 1) = 0.5*( u_x_yend(X(1)) + u_xbeg_y(Y(end)) );
-    Result(end, end) = 0.5*( u_x_yend(X(end)) + u_xend_y(Y(end)) );
+%     % 平滑边缘突变
+%     Result(1,1) = 0.5*( u_x_ybeg(X(1)) +  u_xbeg_y(Y(1)));
+%     Result(1,end) = 0.5*( u_x_ybeg(X(end)) + u_xend_y(Y(1)) );
+%     Result(end, 1) = 0.5*( u_x_yend(X(1)) + u_xbeg_y(Y(end)) );
+%     Result(end, end) = 0.5*( u_x_yend(X(end)) + u_xend_y(Y(end)) );
 
 % 赋入矩阵数据
     G = lam_00*eye((N_y-1)) ...
@@ -139,7 +139,7 @@ tic
         Phi( (i-1)*(N_y-1)+1 : i*(N_y-1), 1 ) = phi_matrix(2:N_y, i+1) + varphi_matrix(:, i);;   % 网格索引 0 ~ N，矩阵索引 1 ~ N+1
     end
     % 第三项 -\lambda_{-1,0}\vec{u}_0
-    Phi(1:(N_y-1), 1) = Phi(1:(N_y-1), 1) -lam_m0*u_xbeg_y(Y(2:N_y))';  % 这里需要有转置，否则可能行向量 + 列向量构成新矩阵
+    Phi(1:(N_y-1), 1) = Phi(1:(N_y-1), 1) - lam_m0*u_xbeg_y(Y(2:N_y)');  % 这里需要有转置，否则可能行向量 + 列向量构成新矩阵
 
     % 第四项 -\lambda_{1,0}\vec{u}_{N_x}
     Phi( (N_x-2)*(N_y-1)+1:(N_x-1)*(N_y-1), 1) = Phi( (N_x-2)*(N_y-1)+1:(N_x-1)*(N_y-1), 1) - lam_p0*u_xend_y(Y(2:N_y))';   % 这里需要有转置，否则可能行向量 + 列向量构成新矩阵
@@ -156,13 +156,15 @@ time = toc;
 
 % 返回结果
     PdeProblem.Result = Result;
-    disp("----------------------------------------------")
-    disp("------- PDE 求解器（二元，二阶，中心差分）-------")
-    disp(['用时：', num2str(time)])
-    disp(['x 轴单元数：', num2str(N_x), ', x 轴步长：', num2str(h_x)])
-    disp(['y 轴单元数：', num2str(N_y), ', y 轴步长：', num2str(h_y)])
-    % disp("PDE结构体：")
-    % disp(PdeProblem)
-    disp("------- PDE 求解器（二元，二阶，中心差分）-------")
-    disp("----------------------------------------------")
+    if DispOutput
+        disp("----------------------------------------------")
+        disp("------- PDE 求解器（二元，二阶，中心差分）-------")
+        disp(['用时：', num2str(time)])
+        disp(['x 轴单元数：', num2str(N_x), ', x 轴步长：', num2str(h_x)])
+        disp(['y 轴单元数：', num2str(N_y), ', y 轴步长：', num2str(h_y)])
+        % disp("PDE结构体：")
+        % disp(PdeProblem)
+        disp("------- PDE 求解器（二元，二阶，中心差分）-------")
+        disp("----------------------------------------------")
+    end
 end

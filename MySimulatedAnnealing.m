@@ -11,8 +11,7 @@ function [stc_SA, stc_Figure] = MySimulatedAnnealing(stc_SA, objective)
         t0 = stc_SA.Annealing.t0;
         mkv = stc_SA.Annealing.mkvlength;
         a = stc_SA.Annealing.a;
-        num_Var = size(stc_SA.Var.range(:,3));
-        num_Var = num_Var(1);
+        num_Var = size(stc_SA.Var.range(:,3),1);    % 返回行数
         %lam = stc.Annealing.lam;
         % 迭代记录仪初始化
         change_1 = 0;    % 随机到更优解的次数
