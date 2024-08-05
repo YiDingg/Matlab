@@ -10,6 +10,20 @@ function stc_MyYYPlot = MyYYPlot(X_1, Y_1, X_2, Y_2)
           [0 0 0]   % 黑色 
           [0 1 1]   % 青色
         ];
+        if length(X_1) >= 100
+            Marker_1 = 'none';
+            LineWidth_1 = 1.6;
+        elseif length(X_1) < 100
+            Marker_1 = '.';
+            LineWidth_1 = 1.3;
+        end
+        if length(X_2) >= 100
+            Marker_2 = 'none';
+            LineWidth_2 = 1.6;
+        elseif length(X_2) < 100
+            Marker_2 = '.';
+            LineWidth_2 = 1.3;
+        end
 
     % 创建图窗
         stc_MyYYPlot.fig = figure('Name','stc_MyYYPlot','Color',[1 1 1]);
@@ -21,8 +35,8 @@ function stc_MyYYPlot = MyYYPlot(X_1, Y_1, X_2, Y_2)
             yyaxis(stc_MyYYPlot.axes,"left")
             stc_MyYYPlot.p_left = plot(X_1, Y_1);
         % 设置 p_left 样式
-            stc_MyYYPlot.p_left.LineWidth = 1.3;
-            stc_MyYYPlot.p_left.Marker = '.';
+            stc_MyYYPlot.p_left.LineWidth = LineWidth_1;
+            stc_MyYYPlot.p_left.Marker = Marker_1;
             stc_MyYYPlot.p_left.MarkerSize = 7;
             stc_MyYYPlot.p_left.Color = MyColor(1,:);
             stc_MyYYPlot.label.y_left = ylabel(stc_MyYYPlot.axes, '$y_1$','Interpreter','latex','FontSize',13);
@@ -32,12 +46,13 @@ function stc_MyYYPlot = MyYYPlot(X_1, Y_1, X_2, Y_2)
             yyaxis(stc_MyYYPlot.axes,"right")
             stc_MyYYPlot.p_right = plot(X_2, Y_2);
         % 设置 p_right 样式
-            stc_MyYYPlot.p_right.LineWidth = 1.3;
-            stc_MyYYPlot.p_right.Marker = '.';
+            stc_MyYYPlot.p_right.LineWidth = LineWidth_2;
+            stc_MyYYPlot.p_right.Marker = Marker_2;
             stc_MyYYPlot.p_right.MarkerSize = 7;
             stc_MyYYPlot.p_right.Color = MyColor(2,:);
             stc_MyYYPlot.label.y_right = ylabel(stc_MyYYPlot.axes, '$y_2$','Interpreter','latex','FontSize',13);
             stc_MyYYPlot.axes.YColor = [1 0 1];
+            
 
     % 设置其他样式
         % 坐标轴
