@@ -1,4 +1,4 @@
-function stc_MySurf = MySurf(X, Y, Z, UseRedBlue, RetainLineEdge)
+function stc_MySurf = MySurf(X, Y, Z, UseRedBlue)
 % 给定数据，作出 3-D surf 图像
 % 输入：
     % X：横坐标，应为 m*n 矩阵
@@ -31,12 +31,7 @@ function stc_MySurf = MySurf(X, Y, Z, UseRedBlue, RetainLineEdge)
         stc_MySurf.label.y = ylabel(stc_MySurf.axes_left,'$y$','Interpreter','latex');
         stc_MySurf.label.z = zlabel(stc_MySurf.axes_left,'$z$','Interpreter','latex');
         stc_MySurf.graph_left.FaceColor = "interp";
-        if RetainLineEdge
-            stc_MySurf.graph_left.EdgeColor = "interp";
-        end
-        if ~RetainLineEdge
-            stc_MySurf.graph_left.EdgeColor = "none";
-        end
+        stc_MySurf.graph_left.EdgeColor = "none";
 
     % 作右图并设置样式
         stc_MySurf.axes_right = nexttile; 
