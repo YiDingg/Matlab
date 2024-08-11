@@ -5,8 +5,13 @@ function [stc_SA, stc_Figure] = MySimulatedAnnealing(stc_SA, objective)
     % stc_SA：退火问题结构体
     % objective：目标函数
 % 输出：迭代结果
-
+% 注：迭代总次数为 1000 时，在 waitbar 上共耗时约 0.8 s 
+%%
     % 步骤一：初始化
+        %Waitbar = waitbar(0, '1', 'Name', 'Simulated Annealing', 'CreateCancelBtn', 'delete(gcbf)','Color', [0.9, 0.9, 0.9]);
+        %Btn = findall(Waitbar, 'type', 'Uicontrol');
+        %set(Btn, 'String', 'Cancle', 'FontSize', 10);
+        Waitbar = waitbar(0, '1', 'Name', 'Simulated Annealing', 'Color', [0.9, 0.9, 0.9]);
         TK = stc_SA.Annealing.T0;
         t0 = stc_SA.Annealing.t0;
         mkv = stc_SA.Annealing.mkvlength;
@@ -65,18 +70,23 @@ function [stc_SA, stc_Figure] = MySimulatedAnnealing(stc_SA, objective)
                 process(mytry) = f;
                 process_best(mytry) = f_best;
             end
-            disp(['进度：',num2str((mytry)/N*100),'%'])
+            %disp(['进度：',num2str((mytry)/N*100),'%'])
             TK = TK*a;
+            waitbar((mytry)/N*100, Waitbar, ['Computing: ', num2str(round((mytry)/N*100, 1)), '%']);
         end
 
     % 步骤三：退火结束，输出最终结果
+        % 进度条
+            time = toc(start);
+            waitbar(1, Waitbar, ['Simulated Annealing Completed (in ', num2str(time),' s)']);
+            Waitbar.Color = [1 1 1];
         % 图像
             stc_SA.process = process;
             stc_SA.process_best = process_best;
             stc_SA.X_best = X_best;
             stc_SA.Object_best = f_best;
 
-            time = toc(start);
+            
             stc_Figure = MyYYPlot(1:length(process), process, 1:length(process), process_best);
             stc_Figure.axes.Title.String = ['Simulated Annealing (in ', num2str(time),' s)'];
             stc_Figure.leg.String = ["Current objective value";"Best objective value"];
@@ -89,7 +99,7 @@ function [stc_SA, stc_Figure] = MySimulatedAnnealing(stc_SA, objective)
         % 文本
             disp('---------------------------------')
             disp('>> --------  模拟退火  -------- <<')
-            toc(start)
+            disp(['历时 ', num2str(time), ' 秒'])
             disp(['一共寻找新解：',num2str(mytry)])
             disp(['change_1次数：',num2str(change_1)])
             disp(['change_2次数：',num2str(change_2)])
@@ -99,5 +109,5 @@ function [stc_SA, stc_Figure] = MySimulatedAnnealing(stc_SA, objective)
             disp('---------------------------------')
 
         % 导出数据
-            writematrix([stc_SA.X_best, stc_SA.Object_best, time], 'MySimulatedAnnealingResualts.xlsx', "WriteMode","append");
+            writematrix([datestr(now, 'yyyy-mm-dd HH:MM:SS'), "Spend (s)", time, 'X_best', stc_SA.X_best, 'Object_best', stc_SA.Object_best], 'MySimulatedAnnealingResualts.xlsx', "WriteMode","append");
 end

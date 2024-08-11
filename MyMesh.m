@@ -21,6 +21,7 @@ function stc_MyMesh = MyMesh(X, Y, Z, UseRedBlue)
         stc_MyMesh.axes_left = nexttile;
         stc_MyMesh.graph_left = mesh(X,Y,Z);
     
+        stc_MyMesh.graph_left.EdgeColor = "interp";
         stc_MyMesh.axes_left.View = [-35 25];
         stc_MyMesh.axes_left.PlotBoxAspectRatio = [1.1 1 0.65];
         stc_MyMesh.axes_left.FontName = "Times New Roman";
