@@ -10,7 +10,7 @@ function [stc_GridSearch, stc_Figure] = MyGridSearch(stc_GridSearch, objective, 
 %%    
 % 步骤一：初始化
     if ShowProcess ~= 0
-        Waitbar = waitbar(0, '1', 'Name', 'Simulated Annealing', 'Color', [0.9, 0.9, 0.9]);
+        Waitbar = waitbar(0, '1', 'Name', 'Grid Search', 'Color', [0.9, 0.9, 0.9]);
     end
     persent = 0;
     size_Var = size(stc_GridSearch.Var);
