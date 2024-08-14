@@ -8,8 +8,8 @@ function stc_MyMesh = MyMesh(X, Y, Z, UseRedBlue)
 % 输出：图像
 
     % 创建图窗
-        stc_MyMesh.fig = figure('Name','MyMesh','Color',[1 1 1]);
-        tiledlayout(1,2,"Padding","tight")
+        stc_MyMesh.fig = figure('Name', 'MyMesh', 'Color', [1 1 1]);
+        tiledlayout(1, 2, "Padding", "tight")
         if UseRedBlue
             stc_MyMesh.fig.Colormap = redblue;
         end
@@ -19,17 +19,17 @@ function stc_MyMesh = MyMesh(X, Y, Z, UseRedBlue)
 
     % 作左图并设置样式
         stc_MyMesh.axes_left = nexttile;
-        stc_MyMesh.graph_left = mesh(X,Y,Z);
-    
-        stc_MyMesh.graph_left.EdgeColor = "interp";
-        stc_MyMesh.axes_left.View = [-35 25];
-        stc_MyMesh.axes_left.PlotBoxAspectRatio = [1.1 1 0.65];
+        stc_MyMesh.graph_left = mesh(X, Y, Z);
+        
+        stc_MyMesh.axes_left.Box = 'on';
+        stc_MyMesh.axes_left.View = [-35, 25];
+        stc_MyMesh.axes_left.PlotBoxAspectRatio = [1.1, 1, 0.65];
         stc_MyMesh.axes_left.FontName = "Times New Roman";
         %stc_MyMesh.axes_left.SortMethod = "childorder";   % to avoid warning when exporting to pdf
-        stc_MyMesh.colb = colorbar(stc_MyMesh.axes_left,"eastoutside"); 
-        stc_MyMesh.label_left.x = xlabel(stc_MyMesh.axes_left,'$x$','Interpreter','latex');
-        stc_MyMesh.label_left.y = ylabel(stc_MyMesh.axes_left,'$y$','Interpreter','latex');
-        stc_MyMesh.label_left.z = zlabel(stc_MyMesh.axes_left,'$z$','Interpreter','latex');
+        stc_MyMesh.colb = colorbar(stc_MyMesh.axes_left, "eastoutside"); 
+        stc_MyMesh.label_left.x = xlabel(stc_MyMesh.axes_left, '$x$', 'Interpreter', 'latex', 'FontSize', 15);
+        stc_MyMesh.label_left.y = ylabel(stc_MyMesh.axes_left, '$y$', 'Interpreter', 'latex', 'FontSize', 15);
+        stc_MyMesh.label_left.z = zlabel(stc_MyMesh.axes_left, '$z$', 'Interpreter', 'latex', 'FontSize', 15);
 
     % 作右图并设置样式
         stc_MyMesh.axes_right = nexttile; 
@@ -38,11 +38,9 @@ function stc_MyMesh = MyMesh(X, Y, Z, UseRedBlue)
         stc_MyMesh.axes_right.FontName = "Times New Roman";
         stc_MyMesh.axes_right.PlotBoxAspectRatio = [1.1 1 0.65];
         stc_MyMesh.axes_right.SortMethod = "childorder";   % to avoid warning when exporting to pdf
-        stc_MyMesh.label_right.x = xlabel(stc_MyMesh.axes_right,'$x$','Interpreter','latex');
-        stc_MyMesh.label_right.y = ylabel(stc_MyMesh.axes_right,'$y$','Interpreter','latex');
-        stc_MyMesh.label_right.z = zlabel(stc_MyMesh.axes_right,'$z$','Interpreter','latex');
-    % 收尾
-        stc_MyMesh.title = sgtitle(stc_MyMesh.fig, 'Figure: MyMesh');
-        stc_MyMesh.title.FontName = 'Times New Roman';  % sgtitle 无法设置字体
-        stc_MyMesh.title.FontSize = 13;
+        stc_MyMesh.label_right.x = xlabel(stc_MyMesh.axes_right, '$x$', 'Interpreter', 'latex', 'FontSize', 15);
+        stc_MyMesh.label_right.y = ylabel(stc_MyMesh.axes_right, '$y$', 'Interpreter', 'latex', 'FontSize', 15);
+
+    % 总标题
+        stc_MyMesh.title = sgtitle(stc_MyMesh.fig, 'Figure: MyMesh', 'FontSize', 17, 'FontWeight', 'bold', 'FontName', 'Times New Roman');
 end

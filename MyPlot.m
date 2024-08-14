@@ -27,9 +27,9 @@ function stc_MyPlot = MyPlot(XData, YData)
     end
 
 % 创建图窗并作图
-    stc_MyPlot.fig = figure('Name','MyPlot','Color',[1 1 1]);
-    stc_MyPlot.axes = axes('Parent',stc_MyPlot.fig);   
-    hold(stc_MyPlot.axes,'on');
+    stc_MyPlot.fig = figure('Name', 'MyPlot', 'Color', [1 1 1]);
+    stc_MyPlot.axes = axes('Parent', stc_MyPlot.fig, 'FontSize', 11);   
+    hold(stc_MyPlot.axes, 'on');
     if size_XData == 1
         for i = 1:1:size_YData
             stc_MyPlot.plot = plot(XData, YData(i,:));
@@ -60,18 +60,18 @@ function stc_MyPlot = MyPlot(XData, YData)
         stc_MyPlot.axes.XLimitMethod = "tight";
         stc_MyPlot.axes.YLimitMethod = "padded";
         stc_MyPlot.axes.Box = 'on';  
-        stc_MyPlot.label.x = xlabel(stc_MyPlot.axes, '$x$', 'Interpreter', 'latex', 'FontSize', 13);
-        stc_MyPlot.label.y = ylabel(stc_MyPlot.axes, '$y$', 'Interpreter', 'latex', 'FontSize', 13);
+        stc_MyPlot.label.x = xlabel(stc_MyPlot.axes, '$x$', 'Interpreter', 'latex', 'FontSize', 15);
+        stc_MyPlot.label.y = ylabel(stc_MyPlot.axes, '$y$', 'Interpreter', 'latex', 'FontSize', 15);
 
     % 标题
         stc_MyPlot.axes.Title.String = 'Figure: MyPlot';
-        stc_MyPlot.axes.Title.FontSize = 13;
+        stc_MyPlot.axes.Title.FontSize = 17;
         stc_MyPlot.axes.Title.FontWeight = 'bold';
 
     % 图例
         stc_MyPlot.leg = legend(stc_MyPlot.axes, 'Location', 'best');
-        stc_MyPlot.leg.FontSize = 11;
-        stc_MyPlot.leg.String = ['$y_1$';'$y_2$';'$y_3$';'$y_4$';'$y_5$'];
+        stc_MyPlot.leg.FontSize = 15;
+        stc_MyPlot.leg.String = ['$y_1$'; '$y_2$'; '$y_3$'; '$y_4$'; '$y_5$'; '$y_6$'];
         stc_MyPlot.leg.Interpreter = "latex";
 
     % 收尾

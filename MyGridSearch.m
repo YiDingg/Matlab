@@ -198,8 +198,11 @@ function [stc_GridSearch, stc_Figure] = MyGridSearch(stc_GridSearch, objective, 
 % 第六步：输出结果
     % 进度条
         time = toc(start);
-        waitbar(1, Waitbar, ['Grid Search Completed (in ', num2str(time),' s)']);
-        Waitbar.Color = [1 1 1];
+        if ShowProcess ~= 0
+            waitbar(1, Waitbar, ['Grid Search Completed (in ', num2str(time),' s)']);
+            Waitbar.Color = [1 1 1];
+        end
+        
     % 文本
         disp('---------------------------------')
         disp('>> --------  网格搜索  -------- <<')
@@ -227,7 +230,7 @@ function [stc_GridSearch, stc_Figure] = MyGridSearch(stc_GridSearch, objective, 
             stc_Figure.label_right.x.String = 'par 1';
             stc_Figure.label_right.y.String = 'par 2';
             stc_Figure.label_right.z.String = 'objective';
-            sgtitle(stc_Figure.fig, ['Grid Search (in ', num2str(time),' s)'] ,'FontSize',13,'FontWeight','bold','FontName', 'Times New Roman')  % sgtitle 的 FontName 无效 
+            sgtitle(stc_Figure.fig, ['Grid Search (in ', num2str(time),' s)'])  
         end
 
 % 第七步：导出数据

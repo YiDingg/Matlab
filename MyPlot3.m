@@ -28,7 +28,7 @@ function stc_MyPlot = MyPlot3(XData, YData, ZData)
 
     % 创建图窗
         stc_MyPlot.fig = figure('Name','MyPlot3','Color',[1 1 1]);
-        stc_MyPlot.axes = axes('Parent',stc_MyPlot.fig);   
+        stc_MyPlot.axes = axes('Parent',stc_MyPlot.fig,  'FontSize', 11);   
         %hold(stc_MyPlot.axes,'on'); % 提前 hold on 会导致作出二维图像
 
     % 作图
@@ -70,18 +70,18 @@ function stc_MyPlot = MyPlot3(XData, YData, ZData)
             stc_MyPlot.axes.YLimitMethod = "padded";
             stc_MyPlot.axes.ZLimitMethod = "padded";
             stc_MyPlot.axes.Box = 'on';  
-            stc_MyPlot.label.x = xlabel(stc_MyPlot.axes, '$x$', 'Interpreter', 'latex', 'FontSize', 13);
-            stc_MyPlot.label.y = ylabel(stc_MyPlot.axes, '$y$', 'Interpreter', 'latex', 'FontSize', 13);
-            stc_MyPlot.label.z = zlabel(stc_MyPlot.axes, '$z$', 'Interpreter', 'latex', 'FontSize', 13);
+            stc_MyPlot.label.x = xlabel(stc_MyPlot.axes, '$x$', 'Interpreter', 'latex', 'FontSize', 15);
+            stc_MyPlot.label.y = ylabel(stc_MyPlot.axes, '$y$', 'Interpreter', 'latex', 'FontSize', 15);
+            stc_MyPlot.label.z = zlabel(stc_MyPlot.axes, '$z$', 'Interpreter', 'latex', 'FontSize', 15);
 
         % 标题
             stc_MyPlot.axes.Title.String = 'Figure: MyPlot3';
-            stc_MyPlot.axes.Title.FontSize = 13;
+            stc_MyPlot.axes.Title.FontSize = 17;
             stc_MyPlot.axes.Title.FontWeight = 'bold';
     
         % 图例
             stc_MyPlot.leg = legend(stc_MyPlot.axes, 'Location', 'best');
-            stc_MyPlot.leg.FontSize = 11;
+            stc_MyPlot.leg.FontSize = 15;
             stc_MyPlot.leg.String = ['$z_1$';'$z_2$';'$z_3$';'$z_4$';'$z_5$'];
             stc_MyPlot.leg.Interpreter = "latex";
   
