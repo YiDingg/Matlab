@@ -1,5 +1,5 @@
 function PdeProblem = MyPDESolver_2Var_Level2_Center(PdeProblem, DispOutput)
-% PDE 求解器（二元，二阶，中心差分，Richardson 格式）
+%% PDE 求解器（二元，二阶，中心差分，Richardson 格式）
 % 注：Richardson 格式稳定性较差，建议使用 DuFort-Frankel (DF) 格式
 
 % 若待求函数为 u = u(t,x)
@@ -55,8 +55,8 @@ function PdeProblem = MyPDESolver_2Var_Level2_Center(PdeProblem, DispOutput)
 % 输出：
 % 注：无法解决 u_xy 前系数不为零的方程
 
+%%
 tic
-
 % 数据准备
     x_beg = PdeProblem.x_beg;
     x_end = PdeProblem.x_end;
