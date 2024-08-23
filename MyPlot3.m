@@ -28,7 +28,7 @@ function stc_MyPlot = MyPlot3(XData, YData, ZData)
 
     % 创建图窗
         stc_MyPlot.fig = figure('Name','MyPlot3','Color',[1 1 1]);
-        stc_MyPlot.axes = axes('Parent',stc_MyPlot.fig,  'FontSize', 11);   
+        stc_MyPlot.axes = axes('Parent',stc_MyPlot.fig,  'FontSize', 14);   
         %hold(stc_MyPlot.axes,'on'); % 提前 hold on 会导致作出二维图像
 
     % 作图

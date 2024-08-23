@@ -21,6 +21,7 @@ function stc_MyMesh = MyMesh(X, Y, Z, UseRedBlue)
         stc_MyMesh.axes_left = nexttile;
         stc_MyMesh.graph_left = mesh(X, Y, Z);
         
+        stc_MyMesh.axes_left.FontSize = 14;
         stc_MyMesh.axes_left.Box = 'on';
         stc_MyMesh.axes_left.View = [-35, 25];
         stc_MyMesh.axes_left.PlotBoxAspectRatio = [1.1, 1, 0.65];
@@ -35,6 +36,7 @@ function stc_MyMesh = MyMesh(X, Y, Z, UseRedBlue)
         stc_MyMesh.axes_right = nexttile; 
         stc_MyMesh.graph_right = contourf(X,Y,Z,15);
 
+        stc_MyMesh.axes_right.FontSize = 14;
         stc_MyMesh.axes_right.FontName = "Times New Roman";
         stc_MyMesh.axes_right.PlotBoxAspectRatio = [1.1 1 0.65];
         stc_MyMesh.axes_right.SortMethod = "childorder";   % to avoid warning when exporting to pdf

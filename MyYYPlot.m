@@ -27,7 +27,7 @@ function stc_MyYYPlot = MyYYPlot(X_1, Y_1, X_2, Y_2)
 
     % 创建图窗
         stc_MyYYPlot.fig = figure('Name', 'MyYYPlot', 'Color', [1, 1, 1]);
-        stc_MyYYPlot.axes = axes('Parent', stc_MyYYPlot.fig);   
+        stc_MyYYPlot.axes = axes('Parent', stc_MyYYPlot.fig, 'FontSize', 14);   
         hold(stc_MyYYPlot.axes, 'on');
         
     % 作图

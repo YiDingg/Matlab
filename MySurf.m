@@ -23,6 +23,7 @@ function stc_MySurf = MySurf(X, Y, Z, UseRedBlue)
         stc_MySurf.axes_left = nexttile;
         stc_MySurf.graph_left = surf(X, Y, Z);
     
+        stc_MySurf.axes_left.FontSize = 14;
         stc_MySurf.axes_left.Box = 'on';
         stc_MySurf.axes_left.View = [-35, 25];
         stc_MySurf.axes_left.PlotBoxAspectRatio = [1.1, 1, 0.65];
@@ -39,6 +40,7 @@ function stc_MySurf = MySurf(X, Y, Z, UseRedBlue)
         stc_MySurf.axes_right = nexttile; 
         stc_MySurf.graph_right = contourf(X, Y, Z, 15);
 
+        stc_MySurf.axes_right.FontSize = 14;
         stc_MySurf.axes_right.FontName = "Times New Roman";
         stc_MySurf.axes_right.PlotBoxAspectRatio = [1.1, 1, 0.65];
         stc_MySurf.axes_right.SortMethod = "childorder";   % to avoid warning when exporting to pdf

@@ -28,7 +28,7 @@ function stc_MyPlot = MyPlot(XData, YData)
 
 % 创建图窗并作图
     stc_MyPlot.fig = figure('Name', 'MyPlot', 'Color', [1 1 1]);
-    stc_MyPlot.axes = axes('Parent', stc_MyPlot.fig, 'FontSize', 11);   
+    stc_MyPlot.axes = axes('Parent', stc_MyPlot.fig, 'FontSize', 14);   
     hold(stc_MyPlot.axes, 'on');
     if size_XData == 1
         for i = 1:1:size_YData
