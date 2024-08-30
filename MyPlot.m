@@ -15,38 +15,48 @@ function stc_MyPlot = MyPlot(XData, YData)
       [0 0 0]   % 黑色 
       [0 1 1]   % 青色
     ];
-    size_YData = size(YData,1);
-    size_XData = size(XData,1);
-    if size(XData,2) >= 100
-        Marker = 'none';
-        LineWidth = 1.5;
+
+%{
+     if ~isrow(XData)
+        XData = XData';
     end
-    if size(XData,2) < 100
+
+%}
+
+    size_XData = size(YData, 1);
+    size_YData = size(YData, 1);
+    if size_XData >= 100
+        Marker = 'none';
+        LineWidth = 2;
+    else 
         Marker = '.';
-        LineWidth = 1.3;
+        LineWidth = 1.5;
     end
 
 % 创建图窗并作图
     stc_MyPlot.fig = figure('Name', 'MyPlot', 'Color', [1 1 1]);
     stc_MyPlot.axes = axes('Parent', stc_MyPlot.fig, 'FontSize', 14);   
     hold(stc_MyPlot.axes, 'on');
-    if size_XData == 1
+    if isvector(XData)
         for i = 1:1:size_YData
             stc_MyPlot.plot = plot(XData, YData(i,:));
             % 设置样式
             stc_MyPlot.plot.LineWidth = LineWidth;
             stc_MyPlot.plot.Marker = Marker;
-            stc_MyPlot.plot.MarkerSize = 7;
+            stc_MyPlot.plot.MarkerSize = 10;
             stc_MyPlot.plot.Color = MyColor(i,:);
         end
     end
     if size_XData ~= 1
-        for i = 1:1:size_YData
+        if size_YData ~= size_XData
+            XData = XData';
+        end
+        for i = 1:size_YData
             stc_MyPlot.plot = plot(XData(i,:), YData(i,:));
             % 设置样式
             stc_MyPlot.plot.LineWidth = LineWidth;
             stc_MyPlot.plot.Marker = Marker;
-            stc_MyPlot.plot.MarkerSize = 7;
+            stc_MyPlot.plot.MarkerSize = 10;
             stc_MyPlot.plot.Color = MyColor(i,:);
         end
     end

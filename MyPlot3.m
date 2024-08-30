@@ -19,11 +19,11 @@ function stc_MyPlot = MyPlot3(XData, YData, ZData)
         size_XData = size(XData,1);
         if size(XData,2) >= 100
             Marker = 'none';
-            LineWidth = 1.6;
+            LineWidth = 2;
         end
         if size(XData,2) < 100
             Marker = '.';
-            LineWidth = 1.3;
+            LineWidth = 1.5;
         end
 
     % 创建图窗
@@ -38,7 +38,7 @@ function stc_MyPlot = MyPlot3(XData, YData, ZData)
             % 设置样式
             stc_MyPlot.plot.LineWidth = LineWidth;
             stc_MyPlot.plot.Marker = Marker;
-            stc_MyPlot.plot.MarkerSize = 7;
+            stc_MyPlot.plot.MarkerSize = 10;
             stc_MyPlot.plot.Color = MyColor(i,:);
             if i == 1
                 hold(stc_MyPlot.axes,'on');
@@ -51,7 +51,7 @@ function stc_MyPlot = MyPlot3(XData, YData, ZData)
             % 设置样式
             stc_MyPlot.plot.LineWidth = LineWidth;
             stc_MyPlot.plot.Marker = Marker;
-            stc_MyPlot.plot.MarkerSize = 7;
+            stc_MyPlot.plot.MarkerSize = 10;
             stc_MyPlot.plot.Color = MyColor(i,:);
             if i == 1
                 hold(stc_MyPlot.axes,'on');
