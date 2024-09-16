@@ -23,9 +23,10 @@ function stc_MyPlot = MyPlot(XData, YData)
 
 %}
 
-    size_XData = size(YData, 1);
-    size_YData = size(YData, 1);
-    if size_XData >= 100
+    num_XData = size(XData, 1);
+    num_YData = size(YData, 1);
+    length_data = size(YData, 2);
+    if length_data >= 100
         Marker = 'none';
         LineWidth = 2;
     else 
@@ -38,26 +39,26 @@ function stc_MyPlot = MyPlot(XData, YData)
     stc_MyPlot.axes = axes('Parent', stc_MyPlot.fig, 'FontSize', 14);   
     hold(stc_MyPlot.axes, 'on');
     if isvector(XData)
-        for i = 1:1:size_YData
-            stc_MyPlot.plot = plot(XData, YData(i,:));
+        for i = 1:1:num_YData
+            stc_MyPlot.plot.(['plot_',num2str(i)]) = plot(XData, YData(i,:));
             % 设置样式
-            stc_MyPlot.plot.LineWidth = LineWidth;
-            stc_MyPlot.plot.Marker = Marker;
-            stc_MyPlot.plot.MarkerSize = 10;
-            stc_MyPlot.plot.Color = MyColor(i,:);
+            stc_MyPlot.plot.(['plot_',num2str(i)]).LineWidth = LineWidth;
+            stc_MyPlot.plot.(['plot_',num2str(i)]).Marker = Marker;
+            stc_MyPlot.plot.(['plot_',num2str(i)]).MarkerSize = 10;
+            stc_MyPlot.plot.(['plot_',num2str(i)]).Color = MyColor(i,:);
         end
     end
-    if size_XData ~= 1
-        if size_YData ~= size_XData
+    if num_XData ~= 1
+        if num_YData ~= num_XData
             XData = XData';
         end
-        for i = 1:size_YData
-            stc_MyPlot.plot = plot(XData(i,:), YData(i,:));
+        for i = 1:num_YData
+            stc_MyPlot.plot.(['plot_',num2str(i)]) = plot(XData(i,:), YData(i,:));
             % 设置样式
-            stc_MyPlot.plot.LineWidth = LineWidth;
-            stc_MyPlot.plot.Marker = Marker;
-            stc_MyPlot.plot.MarkerSize = 10;
-            stc_MyPlot.plot.Color = MyColor(i,:);
+            stc_MyPlot.plot.(['plot_',num2str(i)]).LineWidth = LineWidth;
+            stc_MyPlot.plot.(['plot_',num2str(i)]).Marker = Marker;
+            stc_MyPlot.plot.(['plot_',num2str(i)]).MarkerSize = 10;
+            stc_MyPlot.plot.(['plot_',num2str(i)]).Color = MyColor(i,:);
         end
     end
 
@@ -67,7 +68,7 @@ function stc_MyPlot = MyPlot(XData, YData)
         stc_MyPlot.axes.XGrid = 'on';
         stc_MyPlot.axes.YGrid = 'on';
         %stc_MyYYPlot.axes.GridLineStyle = '--';
-        stc_MyPlot.axes.XLimitMethod = "tight";
+        stc_MyPlot.axes.XLimitMethod = "padded";
         stc_MyPlot.axes.YLimitMethod = "padded";
         stc_MyPlot.axes.Box = 'on';  
         stc_MyPlot.label.x = xlabel(stc_MyPlot.axes, '$x$', 'Interpreter', 'latex', 'FontSize', 15);

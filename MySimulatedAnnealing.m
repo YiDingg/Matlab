@@ -87,13 +87,13 @@ function [stc_SA, stc_Figure] = MySimulatedAnnealing(stc_SA, objective)
             stc_SA.Object_best = f_best;
 
             
-            stc_Figure = MyYYPlot(1:length(process), process, 1:length(process), process_best);
+            stc_Figure = MyYYPlot(1:length(process), process_best, 1:length(process), process);
             stc_Figure.axes.Title.String = ['Simulated Annealing (in ', num2str(time),' s)'];
             %stc_Figure.axes.YLimitMethod = "padded";
-            stc_Figure.leg.String = ["Current objective value";"Best objective value"];
+            stc_Figure.leg.String = ["Best objective value";"Current objective value"];
             stc_Figure.leg.Location = "northeast";
-            stc_Figure.p_left.LineWidth = 1;
-            stc_Figure.p_right.LineWidth = 3;
+            stc_Figure.p_left.LineWidth = 4;
+            stc_Figure.p_right.LineWidth = 1;
             stc_Figure.label.x.String = 'times';
             stc_Figure.label.y_left.String = '$obj_{\mathrm{best}}$';
             stc_Figure.label.y_right.String = '$obj_{\mathrm{current}}$';
