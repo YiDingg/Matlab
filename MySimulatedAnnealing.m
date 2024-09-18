@@ -58,12 +58,35 @@ function [stc_SA, stc_Figure] = MySimulatedAnnealing(stc_SA, objective)
                    X_best = X;
                    change_1 = change_1+1;
                    % disp(['较优参数为：',num2str(X_best)])
-                   disp(['    new obj: ',num2str(f_best)])
+                   % 输出新结果
+                   if num_Var == 1
+                       disp(['X = ',num2str(X_best, '%.12f'), ',  Obj = ', num2str(f_best, '%.12f')])
+                       disp('  ')
+                   else
+                       disp('X = ');
+                       for j = 1:num_Var
+                            disp(['  X_', num2str(j), ': ', num2str(X_best(j)', '%.12f')])
+                       end
+                       disp(['Obj = ', num2str(f_best, '%.12f')]);
+                       disp('  ')
+                   end
+                   
                 elseif exp( - 10^7 * abs((f_best-f)/f_best) /TK  ) > rand  % 满足概率，接受较差解
                    f_best = f;
                    X_best = X;
                    % disp(['较优参数为：',num2str(X_best)])
-                   disp(['    new obj: ',num2str(f_best)])
+                   % 输出新结果
+                   if num_Var == 1
+                       disp(['X = ',num2str(X_best, '%.12f'), ',  Obj = ', num2str(f_best, '%.12f')])
+                       disp('  ')
+                   else
+                       disp('X = ');
+                       for j = 1:num_Var
+                            disp(['   X_', num2str(j), ': ', num2str(X_best(j)', '%.12f')])
+                       end
+                       disp(['Obj = ', num2str(f_best, '%.12f')]);
+                       disp('  ')
+                   end
                    change_2 = change_2 + 1;
                 end
 
@@ -76,10 +99,12 @@ function [stc_SA, stc_Figure] = MySimulatedAnnealing(stc_SA, objective)
         end
 
     % 步骤三：退火结束，输出最终结果
+        time = toc(start);
+       
         % 进度条
-            time = toc(start);
-            waitbar(1, Waitbar, ['Simulated Annealing Completed (in ', num2str(time),' s)']);
             Waitbar.Color = [1 1 1];
+            waitbar(1, Waitbar, ['Simulated Annealing Completed (in ', num2str(time),' s)']);
+            
         % 图像
             stc_SA.process = process;
             stc_SA.process_best = process_best;
@@ -99,17 +124,86 @@ function [stc_SA, stc_Figure] = MySimulatedAnnealing(stc_SA, objective)
             stc_Figure.label.y_right.String = '$obj_{\mathrm{current}}$';
 
         % 文本
-            disp('---------------------------------')
-            disp('>> --------  模拟退火  -------- <<')
-            disp(['历时 ', num2str(time), ' 秒'])
-            disp(['一共寻找新解：',num2str(mytry)])
-            disp(['change_1次数：',num2str(change_1)])
-            disp(['change_2次数：',num2str(change_2)])
-            disp(['最优参数：', num2str(X_best)])
-            disp(['最优目标值：', num2str(f_best)])
-            disp('>> --------  模拟退火  -------- <<')
-            disp('---------------------------------')
+            disp('  ')
+            disp('--------------------------------------------------')
+            disp('>> -----------  SimulatedAnnealing  ----------- <<')
+            disp('  ')
+            disp(['    Finished in ', num2str(time, '%.6f'), ' s'])
+            disp(['    Total new X: ',num2str(mytry), ' (change_1: ',num2str(change_1), ', change_2: ',num2str(change_2), ')'])
+            if num_Var == 1
+                disp(['    X_best   = ', num2str(X_best', '%.12f')])
+            else
+                disp('    X_best   = ')
+                for i = 1:num_Var
+                    disp(['        X_', num2str(i), ': ', num2str(X_best(i)', '%.12f')])
+                end
+            end
+            disp(['    Obj_best = ', num2str(f_best, '%.12f')])
+            disp('  ')
+            disp('>> -----------  SimulatedAnnealing  ----------- <<')
+            disp('--------------------------------------------------')
+            disp('  ')
 
+        % 弹窗：
+        if num_Var == 1
+            msgbox(sprintf(['\n' ...
+                '-------------------------------------------------------------\n' ...
+                '>> -----------  SimulatedAnnealing  ----------- <<\n' ...
+                '\n' ...
+                '    Finished in %.6f s\n' ...
+                '    Total new X: %d  (change_1: %d, change_2: %d)\n' ...
+                '    X_best   = %.12f\n' ...
+                '    Obj_best = %.12f\n' ...
+                '\n' ...
+                '>> -----------  SimulatedAnnealing  ----------- <<\n' ...
+                '------------------------------------------------------------\n' ...
+                '\n' ...
+                ], time, mytry, change_1, change_2, X_best, f_best), 'SimulatedAnnealing')
+        else
+            messages = [
+                "", ...
+                "-------------------------------------------------------------", ...
+                ">> -----------  SimulatedAnnealing  ----------- <<", ...
+                "", ...
+                sprintf('    Finished in %.6f s', time), ...
+                sprintf('    Total new X: %d  (%d + %d)', mytry, change_1, change_2), ...
+                ..."", ...
+                "    X_best   = ", ...
+                arrayfun(@(i) sprintf('        %.12f', X_best(i)), 1:num_Var, 'UniformOutput', false), ...
+                sprintf('    Obj_best = %.12f', f_best), ...
+                "", ...
+                ">> -----------  SimulatedAnnealing  ----------- <<", ...
+                "-------------------------------------------------------------", ...
+                "" ...
+            ];
+            msgbox(messages, 'SimulatedAnnealing');
+            %{
+            msgbox(sprintf(['\n' ...
+                '-------------------------------------------------------------\n' ...
+                '>> -----------  SimulatedAnnealing  ----------- <<\n' ...
+                '\n' ...
+                '    Finished in %.6f s\n' ...
+                '    Total new X: %d  (change_1: %d, change_2: %d)\n' ...
+                '    X_best   = %.12f\n' ...
+                '    Obj_best = %.12f\n' ...
+                '\n' ...
+                '>> -----------  SimulatedAnnealing  ----------- <<\n' ...
+                '------------------------------------------------------------\n' ...
+                '\n' ...
+                ], time, mytry, change_1, change_2, X_best, f_best), 'hello')
+            %}
+        end
         % 导出数据
-            writematrix([datestr(now, 'yyyy-mm-dd HH:MM:SS'), "Spend (s)", time, 'X_best', stc_SA.X_best, 'Object_best', stc_SA.Object_best], 'MySimulatedAnnealingResualts.xlsx', "WriteMode","append");
+            output = cell(1, 6 + num_Var);
+            output{1, 1} = datestr(now, 'yyyy-mm-dd HH:MM:SS');
+            output{1, 2} = 'Spend (s)';
+            output{1, 3} = num2str(time, '%.6f');
+            output{1, 4} = 'X_best';
+            for i = 1:num_Var
+                output{1, 4+i} = num2str(stc_SA.X_best(i), '%.12f');
+            end
+            output{1, 5+num_Var} = 'Object_best';
+            output{1, 6+num_Var} = num2str(stc_SA.Object_best, '%.12f');
+            writecell(output, 'MySimulatedAnnealingResualts.xlsx', "WriteMode","append");
+            %writematrix([datestr(now, 'yyyy-mm-dd HH:MM:SS'), "Spend (s)", time, 'X_best', vpa(stc_SA.X_best), 'Object_best', vpa(stc_SA.Object_best)], 'MySimulatedAnnealingResualts.xlsx', "WriteMode","append");
 end

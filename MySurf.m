@@ -16,7 +16,7 @@ function stc_MySurf = MySurf(X, Y, Z, UseRedBlue)
             stc_MySurf.fig.Colormap = redblue;
         end
         if ~UseRedBlue
-            stc_MySurf.fig.Colormap = bone;
+            stc_MySurf.fig.Colormap = hot;
         end
 
     % 作左图并设置样式
@@ -34,6 +34,12 @@ function stc_MySurf = MySurf(X, Y, Z, UseRedBlue)
         stc_MySurf.label_left.z = zlabel(stc_MySurf.axes_left, '$z$', 'Interpreter', 'latex', 'FontSize', 15);
         stc_MySurf.graph_left.FaceColor = "interp";
         stc_MySurf.graph_left.EdgeColor = "none";
+        stc_MySurf.light1 = light;            % create a light
+        stc_MySurf.light2 = light;            % create a light
+        lightangle(stc_MySurf.light1,0,-45);   % 设置 light 角度
+        lightangle(stc_MySurf.light2,0,45);   % 设置 light 角度
+        lighting gouraud                     % preferred method for lighting curved surfaces
+        material dull                        % set material to be dull, no specular highlights
 
 
     % 作右图并设置样式
