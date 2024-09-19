@@ -14,7 +14,7 @@ function stc_MyMesh = MyMesh(X, Y, Z, UseRedBlue)
             stc_MyMesh.fig.Colormap = redblue;
         end
         if ~UseRedBlue
-            stc_MyMesh.fig.Colormap = bone;
+            stc_MyMesh.fig.Colormap = hot;
         end
 
     % 作左图并设置样式
