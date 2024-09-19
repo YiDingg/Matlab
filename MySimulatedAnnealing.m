@@ -40,15 +40,16 @@ function [stc_SA, stc_Graphics] = MySimulatedAnnealing(stc_SA, objective)
         while TK >= T_end   
             for i = 1:mkv  % 每个温度T下，我们都寻找 mkv 次新解 X，每一个新解都有可能被接受
 
-                r = rand;
-                if r >= 0.5 * (TK/stc_SA.Annealing.T_0)^(0.3) % 在当前较优解附近扰动
-                    for j = 1:num_Var
-                            X(j) = X_best(j)+(rand-0.5)*(stc_SA.Var.range(j,2) - stc_SA.Var.range(j,1))*( 1-(mytry-1)/N )^2;
-                            X(j) = max(stc_SA.Var.range(j,1), min(X(j), stc_SA.Var.range(j,2)));   % 确保扰动后的 X 仍在范围内
+                % GenerateNewX_default:
+                    r = rand;
+                    if r >= 0.5 * (TK/stc_SA.Annealing.T_0)^(0.3) % 在当前较优解附近扰动
+                        for j = 1:num_Var
+                                X(j) = X_best(j)+(rand-0.5)*(stc_SA.Var.range(j,2) - stc_SA.Var.range(j,1))*( 1-(mytry-1)/N )^2;
+                                X(j) = max(stc_SA.Var.range(j,1), min(X(j), stc_SA.Var.range(j,2)));   % 确保扰动后的 X 仍在范围内
+                        end
+                    else % 生成全局随机解
+                        X = (stc_SA.Var.range(:,1) + rand*(stc_SA.Var.range(:,2) - stc_SA.Var.range(:,1)))';  % 转置后才是行向量   
                     end
-                else % 生成全局随机解
-                    X = (stc_SA.Var.range(:,1) + rand*(stc_SA.Var.range(:,2) - stc_SA.Var.range(:,1)))';  % 转置后才是行向量   
-                end
 
                 mytry = mytry+1;
                 obj = objective(X); % 计算目标函数
@@ -233,3 +234,6 @@ function [stc_SA, stc_Graphics] = MySimulatedAnnealing(stc_SA, objective)
             writecell(output, 'MySimulatedAnnealingResualts.xlsx', "WriteMode","append");
             %writematrix([datestr(now, 'yyyy-mm-dd HH:MM:SS'), "Spend (s)", time, 'X_best', vpa(stc_SA.X_best), 'Object_best', vpa(stc_SA.Object_best)], 'MySimulatedAnnealingResualts.xlsx', "WriteMode","append");
 end
+
+
+function GenerateNewX_default
