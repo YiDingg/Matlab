@@ -1,4 +1,4 @@
-function [stc_SA, stc_Figure] = MySimulatedAnnealing(stc_SA, objective)
+function [stc_SA, stc_Graphics] = MySimulatedAnnealing(stc_SA, objective)
 % 输入退火问题结构体，输出迭代结果（minimize）。
 % 
 % 输入：
@@ -41,7 +41,7 @@ function [stc_SA, stc_Figure] = MySimulatedAnnealing(stc_SA, objective)
             for i = 1:mkv  % 每个温度T下，我们都寻找 mkv 次新解 X，每一个新解都有可能被接受
 
                 r = rand;
-                if r>=0.5 % 在当前较优解附近扰动
+                if r >= 0.5 * (TK/stc_SA.Annealing.T_0)^(0.3) % 在当前较优解附近扰动
                     for j = 1:num_Var
                             X(j) = X_best(j)+(rand-0.5)*(stc_SA.Var.range(j,2) - stc_SA.Var.range(j,1))*( 1-(mytry-1)/N )^2;
                             X(j) = max(stc_SA.Var.range(j,1), min(X(j), stc_SA.Var.range(j,2)));   % 确保扰动后的 X 仍在范围内
@@ -71,7 +71,9 @@ function [stc_SA, stc_Figure] = MySimulatedAnnealing(stc_SA, objective)
                        disp('  ')
                    end
                    
-                elseif exp( - 10^7 * abs((obj_best-obj)/obj_best) /TK  ) > rand  % 满足概率，接受较差解
+                elseif exp( - (2*10^3) * abs((obj_best-obj)/obj_best) /TK  ) > rand  % 满足概率，接受较差解
+                    % exp( - lambda * abs((obj_best-obj)/obj_best) /TK  )
+                    % lambda 越小, 接受较差解的概率越大, 10^2 会发生振荡, 10^4 基本不接受差很多的解
                    obj_best = obj;
                    X_best = X;
                    % disp(['较优参数为：',num2str(X_best)])
@@ -113,16 +115,38 @@ function [stc_SA, stc_Figure] = MySimulatedAnnealing(stc_SA, objective)
             close(Waitbar);
 
         % 图像
-            stc_Figure = MyYYPlot(1:length(process), process_best, 1:length(process), process);
-            stc_Figure.axes.Title.String = ['Simulated Annealing (in ', num2str(time),' s)'];
-            %stc_Figure.axes.YLimitMethod = "padded";
-            stc_Figure.leg.String = ["Best objective value";"Current objective value"];
-            stc_Figure.leg.Location = "northeast";
-            stc_Figure.p_left.LineWidth = 4;
-            stc_Figure.p_right.LineWidth = 1;
-            stc_Figure.label.x.String = 'times';
-            stc_Figure.label.y_left.String = '$obj_{\mathrm{best}}$';
-            stc_Figure.label.y_right.String = '$obj_{\mathrm{current}}$';
+        %{
+            stc_Graphics = MyYYPlot(1:length(process), process_best, 1:length(process), process);
+            stc_Graphics.axes.Title.String = ['Simulated Annealing (in ', num2str(time),' s)'];
+            %stc_Graphics.axes.YLimitMethod = "padded";
+            stc_Graphics.leg.String = ["Best objective value";"Current objective value"];
+            stc_Graphics.leg.Location = "northeast";
+            stc_Graphics.p_left.LineWidth = 4;
+            stc_Graphics.p_right.LineWidth = 1;
+            stc_Graphics.label.x.String = 'times';
+            stc_Graphics.label.y_left.String = '$obj_{\mathrm{best}}$';
+            stc_Graphics.label.y_right.String = '$obj_{\mathrm{current}}$';
+        %}
+            %stc_Graphics.fig = figure('Name', 'Simulated Annealing', 'Color', [1 1 1]);
+            %stc_Graphics.axes = axes('Parent', stc_Graphics.fig, 'FontSize', 14);  
+            %stc_Graphics.axes.Title.String = ['Simulated Annealing (in ', num2str(time),' s)'];
+            %stc_Graphics.axes.YLimitMethod = "padded";
+            %hold(stc_Graphics.axes, 'on');
+            stc_Graphics.myplot = MyPlot(1:length(process), process_best);
+            hold(stc_Graphics.myplot.axes, 'on');
+            stc_Graphics.scatter = scatter(1:length(process), process, 50,'red.');
+            stc_Graphics.myplot.axes.Title.String = ['Simulated Annealing (in ', num2str(time),' s)'];
+            stc_Graphics.myplot.leg.String = ["Best objective value";"Current objective value"];
+            stc_Graphics.myplot.leg.Location = "northeast";
+            stc_Graphics.myplot.plot.plot_1.LineWidth = 2.5;
+            stc_Graphics.myplot.label.x.String = 'times';
+            stc_Graphics.plot.label.y.String = '$obj_{\mathrm{best}}$';
+            hold(stc_Graphics.myplot.axes, 'off');
+
+
+
+
+            
 
         % 文本
             disp('  ')
