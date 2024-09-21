@@ -6,15 +6,38 @@ function stc_MyPlot = MyPlot3(XData, YData, ZData)
     % ZData：每一行代表一条线，应为多个 1*n 行向量，构成 m*n 矩阵
 % 输出：图像
 
+%%
     % 准备参数
-        MyColor = [
+        %{
+        MyColors = [
           [0 0 1]   % 蓝色
           [1 0 1]   % 粉色
           [0 1 0]   % 绿色 
           [1 0 0]   % 红色 
           [0 0 0]   % 黑色 
           [0 1 1]   % 青色
+          [1 1 0]   % 黄色
         ];
+        %}
+        
+        MyColors = num2cell( ...
+            [
+            "#9999ff" "#0000ff" "#000099" "#000019"
+            "#ff9999" "#ff0000" "#990000" "#190000"
+            "#99ff99" "#00ff00" "#009900" "#001900"
+            
+            "#ff99ff" "#ff00ff" "#990099" "#190019"
+            "#ffff99" "#ffff00" "#999900" "#191900"
+            "#99ffff" "#00ffff" "#009999" "#001919"
+            "#ffffff" "#bbbbbb" "#999999" "#191919"
+            ]' ...
+        );
+        MyLineStyle = num2cell( ...
+            [
+            "-"  "--" "-." ":"
+            ]' ...
+        );
+
         size_YData = size(YData,1);
         size_XData = size(XData,1);
         if size(XData,2) >= 100
@@ -39,7 +62,8 @@ function stc_MyPlot = MyPlot3(XData, YData, ZData)
             stc_MyPlot.plot.LineWidth = LineWidth;
             stc_MyPlot.plot.Marker = Marker;
             stc_MyPlot.plot.MarkerSize = 10;
-            stc_MyPlot.plot.Color = MyColor(i,:);
+            stc_MyPlot.plot.Color = MyColors{i};
+            stc_MyPlot.plot.LineStyle = MyLineStyle{mod(i-1,4)+1};
             if i == 1
                 hold(stc_MyPlot.axes,'on');
             end
@@ -52,7 +76,8 @@ function stc_MyPlot = MyPlot3(XData, YData, ZData)
             stc_MyPlot.plot.LineWidth = LineWidth;
             stc_MyPlot.plot.Marker = Marker;
             stc_MyPlot.plot.MarkerSize = 10;
-            stc_MyPlot.plot.Color = MyColor(i,:);
+            stc_MyPlot.plot.Color = MyColors{i};
+            stc_MyPlot.plot.LineStyle = MyLineStyle{mod(i-1,4)+1};
             if i == 1
                 hold(stc_MyPlot.axes,'on');
             end
