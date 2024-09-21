@@ -7,14 +7,35 @@ function stc_MyPlot = MyPlot(XData, YData)
 
 %%
 % 准备参数
-    MyColor = [
+%{
+    MyColors = [
       [0 0 1]   % 蓝色
       [1 0 1]   % 粉色
       [0 1 0]   % 绿色 
       [1 0 0]   % 红色 
       [0 0 0]   % 黑色 
       [0 1 1]   % 青色
+      [1 1 0]   % 黄色
     ];
+%}
+
+MyColors = num2cell( ...
+    [
+    "#9999ff" "#0000ff" "#000099" "#000019"
+    "#ff9999" "#ff0000" "#990000" "#190000"
+    "#99ff99" "#00ff00" "#009900" "#001900"
+    
+    "#ff99ff" "#ff00ff" "#990099" "#190019"
+    "#ffff99" "#ffff00" "#999900" "#191900"
+    "#99ffff" "#00ffff" "#009999" "#001919"
+    "#ffffff" "#bbbbbb" "#999999" "#191919"
+    ]' ...
+);
+MyLineStyle = num2cell( ...
+    [
+    "-"  "--" "-." ":"
+    ]' ...
+);
 
 %{
      if ~isrow(XData)
@@ -45,7 +66,8 @@ function stc_MyPlot = MyPlot(XData, YData)
             stc_MyPlot.plot.(['plot_',num2str(i)]).LineWidth = LineWidth;
             stc_MyPlot.plot.(['plot_',num2str(i)]).Marker = Marker;
             stc_MyPlot.plot.(['plot_',num2str(i)]).MarkerSize = 10;
-            stc_MyPlot.plot.(['plot_',num2str(i)]).Color = MyColor(i,:);
+            stc_MyPlot.plot.(['plot_',num2str(i)]).Color = MyColors{i};
+            stc_MyPlot.plot.(['plot_',num2str(i)]).LineStyle = MyLineStyle{mod(i-1,4)+1};
         end
     end
     if num_XData ~= 1
@@ -58,7 +80,8 @@ function stc_MyPlot = MyPlot(XData, YData)
             stc_MyPlot.plot.(['plot_',num2str(i)]).LineWidth = LineWidth;
             stc_MyPlot.plot.(['plot_',num2str(i)]).Marker = Marker;
             stc_MyPlot.plot.(['plot_',num2str(i)]).MarkerSize = 10;
-            stc_MyPlot.plot.(['plot_',num2str(i)]).Color = MyColor(i,:);
+            stc_MyPlot.plot.(['plot_',num2str(i)]).Color = MyColors{i};
+            stc_MyPlot.plot.(['plot_',num2str(i)]).LineStyle = MyLineStyle{mod(i-1,4)+1};
         end
     end
 
@@ -75,14 +98,14 @@ function stc_MyPlot = MyPlot(XData, YData)
         stc_MyPlot.label.y = ylabel(stc_MyPlot.axes, '$y$', 'Interpreter', 'latex', 'FontSize', 15);
 
     % 标题
-        stc_MyPlot.axes.Title.String = 'Figure: MyPlot';
+        %stc_MyPlot.axes.Title.String = 'Figure: MyPlot';
         stc_MyPlot.axes.Title.FontSize = 17;
         stc_MyPlot.axes.Title.FontWeight = 'bold';
 
     % 图例
         stc_MyPlot.leg = legend(stc_MyPlot.axes, 'Location', 'best');
         stc_MyPlot.leg.FontSize = 15;
-        stc_MyPlot.leg.String = ['$y_1$'; '$y_2$'; '$y_3$'; '$y_4$'; '$y_5$'; '$y_6$'];
+        stc_MyPlot.leg.String = ['$y_1$'; '$y_2$'; '$y_3$'; '$y_4$'; '$y_5$'; '$y_6$'; '$y_7$'; '$y_8$'; '$y_9$';];
         stc_MyPlot.leg.Interpreter = "latex";
 
     % 收尾
