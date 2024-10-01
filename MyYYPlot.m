@@ -40,7 +40,7 @@ function stc_MyYYPlot = MyYYPlot(X_1, Y_1, X_2, Y_2)
             stc_MyYYPlot.p_left.MarkerSize = 10;
             stc_MyYYPlot.p_left.Color = MyColor(1, :);
             stc_MyYYPlot.label.y_left = ylabel(stc_MyYYPlot.axes, '$y_1$', 'Interpreter', 'latex', 'FontSize', 15);
-            stc_MyYYPlot.axes.YColor = [0, 0, 1];   % 左侧粉色
+            stc_MyYYPlot.axes.YColor = MyColor(1, :);   % 左侧蓝色
 
         % 作出 p_right
             yyaxis(stc_MyYYPlot.axes,"right")
@@ -51,7 +51,7 @@ function stc_MyYYPlot = MyYYPlot(X_1, Y_1, X_2, Y_2)
             stc_MyYYPlot.p_right.MarkerSize = 10;
             stc_MyYYPlot.p_right.Color = MyColor(2, :);
             stc_MyYYPlot.label.y_right = ylabel(stc_MyYYPlot.axes, '$y_2$', 'Interpreter', 'latex', 'FontSize', 15);
-            stc_MyYYPlot.axes.YColor = [1, 0, 1];   % 右侧蓝色
+            stc_MyYYPlot.axes.YColor = MyColor(2, :);  % 右侧粉色
 
     % 设置其他样式
         % 坐标轴
@@ -66,7 +66,7 @@ function stc_MyYYPlot = MyYYPlot(X_1, Y_1, X_2, Y_2)
             stc_MyYYPlot.axes.Box = 'on';
 
         % 标题
-            stc_MyYYPlot.axes.Title.String = 'Figure: MyYYPlot';
+            stc_MyYYPlot.axes.Title.String = '';
             stc_MyYYPlot.axes.Title.FontSize = 17;
             stc_MyYYPlot.axes.Title.FontWeight = "bold";
         
