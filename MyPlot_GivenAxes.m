@@ -19,18 +19,7 @@ function stc_MyPlot = MyPlot_GivenAxes(ax, XData, YData)
         ];
     %}
     
-    MyColors = num2cell( ...
-        [
-        "#9999ff" "#0000ff" "#000099" "#000019"
-        "#ff9999" "#ff0000" "#990000" "#190000"
-        "#99ff99" "#00ff00" "#009900" "#001900"
-        
-        "#ff99ff" "#ff00ff" "#990099" "#190019"
-        "#ffff99" "#ffff00" "#999900" "#191900"
-        "#99ffff" "#00ffff" "#009999" "#001919"
-        "#ffffff" "#bbbbbb" "#999999" "#191919"
-        ]' ...
-    );
+    MyColors = GetMyColors;
     MyLineStyle = num2cell( ...
         [
         "-"  ":" "-." "--" 

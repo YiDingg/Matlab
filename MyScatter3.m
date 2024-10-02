@@ -1,44 +1,29 @@
-function stc_MyScatter = MyScatter(XData, YData)
-%% 给定数据，作出 2-D 函数图像（注意输入的是行向量）
+function stc_MyScatter = MyScatter3(XData, YData, ZData)
+%%
 % 输入：
-    % XData：横坐标，应为 1*n 行向量（共用）或 m 个行向量（m*n 矩阵）
-    % YData：每一行代表一条线，应为多个 1*n 行向量，构成 m*n 矩阵
+    % XData, YData, ZData: 应为 1*n 或 n*1 向量
 % 输出：图像
 
 %%  
 % 准备工作
     MyColors = GetMyColors;
-    num_XData = size(XData, 1);
-    num_YData = size(YData, 1);
-    length_data = size(YData, 2);
-    if length_data ~= size(XData, 2)
-        XData = XData';
-        num_XData = size(XData, 1);
-    end
+    length_data = numel(ZData);
     Marker = '.';
     MarkerSize = 40;
-    if length_data >= 100
+    if length_data >= 200
         MarkerSize = 25;
     end
 
 % 创建图窗并作图
     stc_MyScatter.fig = figure('Name', 'Myscatter', 'Color', [1 1 1]);
     stc_MyScatter.axes = axes('FontSize', 14);   
-    hold(stc_MyScatter.axes, 'on');
-
-    for i = 1:num_YData
-        if num_XData == 1
-            stc_MyScatter.scatter.(['scatter_',num2str(i)]) = scatter(XData, YData(i,:));
-        else
-            stc_MyScatter.scatter.(['scatter_',num2str(i)]) = scatter(XData(i,:), YData(i,:));
-        end
+    stc_MyScatter.scatter3 = scatter3(XData, YData, ZData);
         
         % 设置作图样式
-        stc_MyScatter.scatter.(['scatter_',num2str(i)]).Marker = Marker;
-        stc_MyScatter.scatter.(['scatter_',num2str(i)]).SizeData = MarkerSize;
-        stc_MyScatter.scatter.(['scatter_',num2str(i)]).MarkerEdgeColor = MyColors{i};
-        stc_MyScatter.scatter.(['scatter_',num2str(i)]).MarkerFaceColor = MyColors{i};
-    end
+        stc_MyScatter.scatter3.Marker = Marker;
+        stc_MyScatter.scatter3.SizeData = MarkerSize;
+        stc_MyScatter.scatter3.MarkerEdgeColor = MyColors{2};
+        stc_MyScatter.scatter3.MarkerFaceColor = MyColors{2};
 
 % 设置其它样式
     % 坐标轴
@@ -64,9 +49,4 @@ function stc_MyScatter = MyScatter(XData, YData)
 
     % 收尾
         hold(stc_MyScatter.axes,'off')
-end
-
-function rgbColor = MyHex2rgb(hexColor)
-    %hexColor = cell(hexColor);
-    rgbColor = sscanf(hexColor, '#%2x%2x%2x', [1,3])/255;
 end

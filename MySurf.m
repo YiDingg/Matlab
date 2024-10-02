@@ -19,9 +19,13 @@ DrawContourf = 1;
             tiledlayout(1, 2, "Padding", "tight")
         end
         stc_MySurf.fig.Colormap = redblue;
+        %stc_MySurf.fig.Colormap = cool;
         %stc_MySurf.fig.Colormap = hot;
         %stc_MySurf.fig.Colormap = turbo;
         %stc_MySurf.fig.Colormap = bone;
+        % 官方提供的有: parula, turbo, jet, hsv, hot, cool, spring, summer,
+        % autumn, winter, gray, bone, copper, pink, lines, colorcube,
+        % prism, flag, white, default
 
     % 作左图并设置样式
         stc_MySurf.axes_left = nexttile;
