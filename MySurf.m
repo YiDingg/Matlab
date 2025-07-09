@@ -1,4 +1,4 @@
-function stc_MySurf = MySurf(X, Y, Z)
+function stc_MySurf = MySurf(X, Y, Z, flag_drawContourf)
 %% 给定数据，作出 3-D surf 图像
 % 输入：
     % X：横坐标，应为 m*n 矩阵
@@ -11,11 +11,13 @@ function stc_MySurf = MySurf(X, Y, Z)
 %%
 
 % 是否作等高线图
-DrawContourf = 1;
+if nargin <= 3
+    flag_drawContourf = 1;  % 未指定是否 drawContourf, 默认要画
+end
 
     % 创建图窗
         stc_MySurf.fig = figure('Name', 'MyMesh', 'Color', [1 1 1]);
-        if DrawContourf
+        if flag_drawContourf
             tiledlayout(1, 2, "Padding", "tight")
         end
         stc_MySurf.fig.Colormap = redblue;
@@ -36,6 +38,9 @@ DrawContourf = 1;
         stc_MySurf.axes_left.View = [-35, 25];
         stc_MySurf.axes_left.PlotBoxAspectRatio = [1.1, 1, 0.65];
         stc_MySurf.axes_left.FontName = "Times New Roman";
+        stc_MySurf.axes_left.XLimitMethod = 'tight';
+        stc_MySurf.axes_left.YLimitMethod = 'tight';
+        stc_MySurf.axes_left.ZLimitMethod = 'tight';
         stc_MySurf.colb = colorbar(stc_MySurf.axes_left, "eastoutside"); 
         stc_MySurf.label_left.x = xlabel(stc_MySurf.axes_left, '$x$', 'Interpreter', 'latex', 'FontSize', 15);
         stc_MySurf.label_left.y = ylabel(stc_MySurf.axes_left, '$y$', 'Interpreter', 'latex', 'FontSize', 15);
@@ -44,15 +49,17 @@ DrawContourf = 1;
         stc_MySurf.graph_left.EdgeColor = "none";
         stc_MySurf.light1 = light;            % create a light
         stc_MySurf.light2 = light;            % create a light
+        %stc_MySurf.light3 = light;            % create a light
         lightangle(stc_MySurf.light1, 0, -45);  % 设置 light 角度
         lightangle(stc_MySurf.light2, 0, 45);   % 设置 light 角度
+        %lightangle(stc_MySurf.light3, 45, 45);   % 设置 light 角度
         lighting gouraud                      % preferred method for lighting curved surfaces
         material dull                         % set material to be dull, no specular highlights
 
-if DrawContourf
+if flag_drawContourf
     % 作右图并设置样式
         stc_MySurf.axes_right = nexttile; 
-        [~, stc_MySurf.graph_right] = contourf(X, Y, Z, 15);
+        [~, stc_MySurf.graph_right] = contourf(X, Y, Z, 10);
 
         stc_MySurf.axes_right.FontSize = 14;
         stc_MySurf.axes_right.FontName = "Times New Roman";

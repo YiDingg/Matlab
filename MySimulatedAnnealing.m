@@ -1,6 +1,6 @@
 function [stc_SA, stc_Graphics] = MySimulatedAnnealing(stc_SA, objective)
 % 输入退火问题结构体，输出迭代结果（minimize）。
-% 
+% 注：最小化给定的目标函数
 % 输入：
     % stc_SA：退火问题结构体
     % objective：目标函数
@@ -72,7 +72,7 @@ function [stc_SA, stc_Graphics] = MySimulatedAnnealing(stc_SA, objective)
                        disp('  ')
                    end
                    
-                elseif exp( - (2*10^3) * abs((obj_best-obj)/obj_best) /TK  ) > rand  % 满足概率，接受较差解
+                elseif exp( - (2*10^4) * abs((obj_best-obj)/obj_best) /TK  ) > rand  % 满足概率，接受较差解
                     % exp( - lambda * abs((obj_best-obj)/obj_best) /TK  )
                     % lambda 越小, 接受较差解的概率越大, 10^2 会发生振荡, 10^4 基本不接受差很多的解
                    obj_best = obj;
@@ -236,4 +236,4 @@ function [stc_SA, stc_Graphics] = MySimulatedAnnealing(stc_SA, objective)
 end
 
 
-function GenerateNewX_default
+%function GenerateNewX_default

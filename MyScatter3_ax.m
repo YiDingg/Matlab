@@ -6,7 +6,7 @@ function stc_MyScatter = MyScatter3(ax, XData, YData, ZData)
 
 %%  
 % 准备工作
-    MyColors = GetMyColors;
+    MyColors = MyGet_colors;
     length_data = numel(ZData);
     Marker = '.';
     MarkerSize = 40;

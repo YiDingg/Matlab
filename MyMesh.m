@@ -1,4 +1,4 @@
-function stc_MyMesh = MyMesh(X, Y, Z)
+function stc_MyMesh = MyMesh(X, Y, Z, flag_drawContourf)
 %% 给定数据，作出 3-D mesh 图像
 % 输入：
     % X：横坐标，应为 m*n 矩阵
@@ -9,11 +9,13 @@ function stc_MyMesh = MyMesh(X, Y, Z)
 %%
 
 % 是否作等高线图
-DrawContourf = 1;
+if nargin <= 3
+    flag_drawContourf = 1;  % 未指定是否 drawContourf, 默认要画
+end
 
     % 创建图窗
         stc_MyMesh.fig = figure('Name', 'MyMesh', 'Color', [1 1 1]);
-        if DrawContourf
+        if flag_drawContourf
             tiledlayout(1, 2, "Padding", "tight")
         end
         %if UseRedBlue
@@ -32,16 +34,19 @@ DrawContourf = 1;
         stc_MyMesh.axes_left.View = [-35, 25];
         stc_MyMesh.axes_left.PlotBoxAspectRatio = [1.1, 1, 0.65];
         stc_MyMesh.axes_left.FontName = "Times New Roman";
+        stc_MyMesh.axes_left.XLimitMethod = 'tight';
+        stc_MyMesh.axes_left.YLimitMethod = 'tight';
+        stc_MyMesh.axes_left.ZLimitMethod = 'tight';
         %stc_MyMesh.axes_left.SortMethod = "childorder";   % to avoid warning when exporting to pdf
         stc_MyMesh.colb = colorbar(stc_MyMesh.axes_left, "eastoutside"); 
         stc_MyMesh.label_left.x = xlabel(stc_MyMesh.axes_left, '$x$', 'Interpreter', 'latex', 'FontSize', 15);
         stc_MyMesh.label_left.y = ylabel(stc_MyMesh.axes_left, '$y$', 'Interpreter', 'latex', 'FontSize', 15);
         stc_MyMesh.label_left.z = zlabel(stc_MyMesh.axes_left, '$z$', 'Interpreter', 'latex', 'FontSize', 15);
 
-if DrawContourf
+if flag_drawContourf
     % 作右图并设置样式
         stc_MyMesh.axes_right = nexttile; 
-        [~, stc_MyMesh.graph_right] = contourf(X,Y,Z,15);
+        [~, stc_MyMesh.graph_right] = contourf(X,Y,Z, 30);
 
         stc_MyMesh.axes_right.FontSize = 14;
         stc_MyMesh.axes_right.FontName = "Times New Roman";

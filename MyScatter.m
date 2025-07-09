@@ -7,7 +7,7 @@ function stc_MyScatter = MyScatter(XData, YData)
 
 %%  
 % 准备工作
-    MyColors = GetMyColors;
+    MyColors = MyGet_colors;
     num_XData = size(XData, 1);
     num_YData = size(YData, 1);
     length_data = size(YData, 2);
@@ -45,8 +45,8 @@ function stc_MyScatter = MyScatter(XData, YData)
         stc_MyScatter.axes.FontName = "Times New Roman"; % 全局 FontName
         stc_MyScatter.axes.XGrid = 'on';
         stc_MyScatter.axes.YGrid = 'on';
-        stc_MyScatter.axes.XLimitMethod = "padded";
-        stc_MyScatter.axes.YLimitMethod = "padded";
+        stc_MyScatter.axes.XLimitMethod = 'tight';
+        stc_MyScatter.axes.YLimitMethod = 'tight';
         stc_MyScatter.axes.Box = 'on';  
         stc_MyScatter.label.x = xlabel(stc_MyScatter.axes, '$x$', 'Interpreter', 'latex', 'FontSize', 15);
         stc_MyScatter.label.y = ylabel(stc_MyScatter.axes, '$y$', 'Interpreter', 'latex', 'FontSize', 15);

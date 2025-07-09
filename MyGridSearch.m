@@ -252,7 +252,7 @@ function [stc_GS, stc_Figure] = MyGridSearch(stc_GS, objective, ShowProcess)
             stc_Figure.label.y.String = 'objective';
 
         case 2
-            stc_Figure = MyMesh(stc_GS.X1, stc_GS.X2, Objective', true);
+            stc_Figure = MyMesh(stc_GS.X1, stc_GS.X2, Objective');
             stc_Figure.label_left.x.String = 'par 1';
             stc_Figure.label_left.y.String = 'par 2';
             stc_Figure.label_left.z.String = 'objective';

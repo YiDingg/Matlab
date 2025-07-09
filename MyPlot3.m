@@ -20,7 +20,7 @@ function stc_MyPlot = MyPlot3(XData, YData, ZData)
     ];
     %}
     
-    MyColors = GetMyColors;
+    MyColors = MyGet_colors;
     MyLineStyle = num2cell( ...
         [
         "-"  "--" "-." ":"

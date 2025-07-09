@@ -19,7 +19,13 @@ function stc_MyPlot = MyPlot(XData, YData)
         ];
     %}
     
-    MyColors = GetMyColors;
+% 若输入是两个行向量, 转为列向量
+if size(XData, 2) == 1 && size(YData, 2) == 1
+    XData = XData';
+    YData = YData';
+end
+
+    MyColors = MyGet_colors;
     MyLineStyle = num2cell( ...
         [
         "-"  ":" "-." "--" 
@@ -33,17 +39,27 @@ function stc_MyPlot = MyPlot(XData, YData)
         XData = XData';
         num_XData = size(XData, 1);
     end
-    if length_data >= 100
-        Marker = 'none';
-        LineWidth = 2;
-    else 
+    if length_data <= 10
+        Marker = '.';
+        LineWidth = 1.7;
+        MarkerSize = 20;
+    elseif length_data <= 30
         Marker = '.';
         LineWidth = 1.5;
+        MarkerSize = 15;
+    elseif length_data <= 60
+        Marker = '.';
+        LineWidth = 1.5;
+        MarkerSize = 10;
+    else 
+        Marker = 'none';
+        LineWidth = 2;
+        MarkerSize = 6; % 默认是 6
     end
 
 % 创建图窗并作图
     stc_MyPlot.fig = figure('Name', 'MyPlot', 'Color', [1 1 1]);
-    stc_MyPlot.axes = axes('Parent',stc_MyPlot.fig, 'FontSize', 14);   
+    stc_MyPlot.axes = axes('Parent',stc_MyPlot.fig, 'FontSize', 18);   
     hold(stc_MyPlot.axes, 'on');
     for i = 1:num_YData
         if num_XData == 1
@@ -54,7 +70,7 @@ function stc_MyPlot = MyPlot(XData, YData)
         % 设置作图样式
             stc_MyPlot.plot.(['plot_',num2str(i)]).LineWidth = LineWidth;
             stc_MyPlot.plot.(['plot_',num2str(i)]).Marker = Marker;
-            stc_MyPlot.plot.(['plot_',num2str(i)]).MarkerSize = 10;
+            stc_MyPlot.plot.(['plot_',num2str(i)]).MarkerSize = MarkerSize;
             stc_MyPlot.plot.(['plot_',num2str(i)]).Color = MyColors{i};
             stc_MyPlot.plot.(['plot_',num2str(i)]).LineStyle = MyLineStyle{mod(i-1,4)+1};
     end
@@ -66,22 +82,26 @@ function stc_MyPlot = MyPlot(XData, YData)
         stc_MyPlot.axes.XGrid = 'on';
         stc_MyPlot.axes.YGrid = 'on';
         %stc_MyYYPlot.axes.GridLineStyle = '--';
-        stc_MyPlot.axes.XLimitMethod = "padded";
-        stc_MyPlot.axes.YLimitMethod = "padded";
+        stc_MyPlot.axes.XLimitMethod = 'tight';
+        stc_MyPlot.axes.YLimitMethod = 'tight';
         stc_MyPlot.axes.Box = 'on';  
-        stc_MyPlot.label.x = xlabel(stc_MyPlot.axes, '$x$', 'Interpreter', 'latex', 'FontSize', 15);
-        stc_MyPlot.label.y = ylabel(stc_MyPlot.axes, '$y$', 'Interpreter', 'latex', 'FontSize', 15);
+        stc_MyPlot.label.x = xlabel(stc_MyPlot.axes, '$x$', 'Interpreter', 'latex', 'FontSize', 18);
+        stc_MyPlot.label.y = ylabel(stc_MyPlot.axes, '$y$', 'Interpreter', 'latex', 'FontSize', 18);
 
     % 标题
         %stc_MyPlot.axes.Title.String = 'Figure: MyPlot';
-        stc_MyPlot.axes.Title.FontSize = 17;
+        stc_MyPlot.axes.Title.FontSize = 19;
         stc_MyPlot.axes.Title.FontWeight = 'bold';
+        stc_MyPlot.axes.Title.Interpreter = 'latex';
 
     % 图例
         stc_MyPlot.leg = legend(stc_MyPlot.axes, 'Location', 'best');
-        stc_MyPlot.leg.FontSize = 15;
+        stc_MyPlot.leg.FontSize = 18;
         stc_MyPlot.leg.String = ['$y_1$'; '$y_2$'; '$y_3$'; '$y_4$'; '$y_5$'; '$y_6$'; '$y_7$'; '$y_8$'; '$y_9$';];
         stc_MyPlot.leg.Interpreter = "latex";
+        if num_YData == 1
+            stc_MyPlot.leg.Visible = 'off';
+        end
 
     % 收尾
         hold(stc_MyPlot.axes,'off')

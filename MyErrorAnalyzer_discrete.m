@@ -36,6 +36,8 @@ function stc_error = MyErrorAnalyzer_discrete(Y, Y_hat, num_Var)
     %stc_error.axes = axes('FontSize', 14);   
     if isvector(Y)
         stc_error.ResidualScatter = MyScatter(1:DataLength, Residual);
+        stc_error.ResidualScatter.scatter.scatter_1.MarkerEdgeColor = 'r';
+        stc_error.ResidualScatter.scatter.scatter_1.CData = 30;
     else
         % 将矩阵转为行向量
         stc_error.XData = zeros(1, stc_error.DataLength);
@@ -85,6 +87,8 @@ function stc_error = MyErrorAnalyzer_discrete(Y, Y_hat, num_Var)
     disp(['Y_bar        = ',       num2str(stc_error.Y_bar, '%.8f')])
     disp(['Y_hat_bar    = ',       num2str(stc_error.Y_hat_bar, '%.8f')])
     disp('  ')
+    disp(['R2         = ',              num2str(1-stc_error.MyR2, '%.10f')]);
+    disp(['R2_adj     = ',          num2str(1-stc_error.MyR2_adj, '%.10f')]);
     disp(['MyR2         = ',              num2str(stc_error.MyR2, '%.10f')]);
     disp(['MyR2_adj     = ',          num2str(stc_error.MyR2_adj, '%.10f')]);
     disp(['MAPE         = ',            num2str(stc_error.MAPE, '%.10f')]);
